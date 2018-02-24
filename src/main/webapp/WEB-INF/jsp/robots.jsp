@@ -28,9 +28,9 @@
 	      <th>Edit</th>
 	      <th>Delete</th>
         </tr>
-        <c:forEach  items="${robotsList}" var ="robot">
+        <c:forEach  items="${robotslist}" var ="robot">
 	        <tr>
-	          	<td onclick="document.location = '<%= request.getContextPath()%>/robots/${robot.id}';", style="color: #382b91; cursor: pointer;">${robot.id}</td>
+	          	<td onclick="document.location = '<%= request.getContextPath()%>/robots/${robot.id}';" style="color: #382b91; cursor: pointer;">${robot.id}</td>
 	          	<td>${robot.robotModel.model}</td>
 	          	<td>${robot.status}</td>
 	          	<td>${robot.order.id}</td>

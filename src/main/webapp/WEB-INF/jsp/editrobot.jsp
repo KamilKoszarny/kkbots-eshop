@@ -29,9 +29,9 @@
 				<% String thisRobotModel = request.getAttribute("thisrobotmodel").toString();
 				String robotModel = pageContext.getAttribute("robotmodel").toString();
 				if(robotModel.equals(thisRobotModel)) { %>
-		  		<option value="${robotmodel.model}" selected>${robotmodel.model}</option>
+		  		<option value="${robotmodel}" selected>${robotmodel.model}</option>
 		  		<% } else { %>
-		  		<option value="${robotmodel.model}">${robotmodel.model}</option>
+		  		<option value="${robotmodel}">${robotmodel.model}</option>
 		  		<% } %>
 		  	</c:forEach>
 		</select>

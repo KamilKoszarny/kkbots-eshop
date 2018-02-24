@@ -1,16 +1,10 @@
 package kkbots.jpa.robot.robotmodel;
 
 import java.sql.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import kkbots.jpa.robot.Robot;
 
 @Entity
 @Table(name="robotmodels")
@@ -27,8 +21,8 @@ public class RobotModel {
 	private Date when_ready;
 	
 
-	@OneToMany(mappedBy="robotModel", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-    private List<Robot> robots;
+//	@OneToMany(mappedBy="robotModel", fetch=FetchType.LAZY)
+//    private List<Robot> robots;
     
     RobotModel(){
     	
@@ -109,12 +103,12 @@ public class RobotModel {
 		this.when_ready = when_ready;
 	}
 	
-	public List<Robot> getRobots() {
-		return robots;
-	}
-
-	public void setRobots(List<Robot> robots) {
-		this.robots = robots;
-	}
+//	public List<Robot> getRobots() {
+//		return robots;
+//	}
+//
+//	public void setRobots(List<Robot> robots) {
+//		this.robots = robots;
+//	}
    
 }

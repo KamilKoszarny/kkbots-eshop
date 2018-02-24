@@ -19,11 +19,11 @@
 
 	<h2>Add robot</h2>
 	<h3>Insert values:</h3>
-	<form method="post" action="robots">
+	<form method="post" action="addrobot">
 		Model:<br/>
 		<select name="model">
 			<c:forEach items="${robotmodels}" var="robotmodel" >
-		  		<option value="${robotmodel.model}">${robotmodel.model}</option>
+		  		<option value="${robotmodel}">${robotmodel.model}</option>
 		  	</c:forEach>
 		</select>
 		<br/>Status:<br/>

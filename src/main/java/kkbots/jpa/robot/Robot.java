@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,7 +27,8 @@ public class Robot {
 	@JoinColumn(name="model")
     private RobotModel robotModel;
 	
-    private String status;
+	@Enumerated(EnumType.STRING)
+    private RobotStatus status;
     
     @ManyToOne(optional=true, fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="order_id")
@@ -36,19 +39,19 @@ public class Robot {
     	
     }
 
-    public Robot(Long id, String model, String status) {
+    public Robot(Long id, RobotModel model, RobotStatus status) {
     	super();
 		this.id = id;
-		this.robotModel = new RobotModel(model, "", "", "", 0, 0, new Date(0));
+		this.robotModel = model;
 		this.status = status;
     }
 
-	public Robot(Long id, String model, String status, Long order_id) {
+	public Robot(Long id, RobotModel model, RobotStatus status, Order order) {
 		super();
 		this.id = id;
-		this.robotModel = new RobotModel(model, "", "", "", 0, 0, new Date(0));
+		this.robotModel = model;
 		this.status = status;
-		this.order = new Order(order_id, null, new Date(0), "");
+		this.order = order;
 	}
 
 
@@ -70,11 +73,11 @@ public class Robot {
 	}
 
 
-	public String getStatus() {
+	public RobotStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(RobotStatus status) {
 		this.status = status;
 	}
 

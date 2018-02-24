@@ -3,10 +3,8 @@ package kkbots.jpa.robot;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +30,7 @@ public class RobotController {
 		List<Robot> robotsList = new ArrayList<>();
 		robotsList = robotService.getAllRobots();
 		
-		model.addAttribute("robotsList", robotsList);
+		model.addAttribute("robotslist", robotsList);
 		model.addAttribute("title", "All robots:");
 		
 		return "robots";
@@ -41,11 +39,14 @@ public class RobotController {
 	@RequestMapping("/robots/{id}")
 	public String getRobotById(@PathVariable Long id, Model model, @RequestParam(name="delete", required=false) String delete) {
 		
+		Robot robot = robotService.getRobot(id);
+		
 		if (delete != null) {
+			if (robot.getStatus() == RobotStatus.READY && robot.getOrder() == null)
+				robotModelService.decreaseStock(robot.getRobotModel());
 			robotService.deleteRobot(id);
 			return getAllRobots(model);
 		} else {
-			Robot robot = robotService.getRobot(id);
 			
 			model.addAttribute("title", "This robot:");
 			model.addAttribute("robot", robot);
@@ -65,11 +66,16 @@ public class RobotController {
 		return "addrobot";
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/robots")
-	public ModelAndView addRobot(@RequestParam(name="model") String robotModel, @RequestParam(name="status") String robotStatus, Model model) {
+	@RequestMapping(method=RequestMethod.POST, value="/addrobot")
+	public ModelAndView addRobot(@RequestParam(name="model") RobotModel robotModel, @RequestParam(name="status") RobotStatus robotStatus, Model model) {
 		model.addAttribute("title", "Added robot:");
 		Robot robot = new Robot(0l, robotModel, robotStatus);
+		
 		robotService.addRobot(robot);
+		
+		if(robotStatus == RobotStatus.READY) {
+			robotModelService.increaseStock(robotModel);
+		}
 		
 		return new ModelAndView(new RedirectView("/robots"));
 	}
@@ -82,18 +88,26 @@ public class RobotController {
 		model.addAttribute("robotmodels", robotModels);
 		model.addAttribute("robotstatuses", robotStatuses);
 		
+		model.addAttribute("thisrobotmodel", robotService.getRobot(id).getRobotModel());
 		model.addAttribute("thisrobotstatus", robotService.getRobot(id).getStatus());
 		model.addAttribute("id", id);
 		
 		return "editrobot";
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/robots/{id}/edit", consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public void updateRobot(Robot robot, Model model, @PathVariable Long id, HttpServletResponse httpServletResponse) {
+	@RequestMapping(method=RequestMethod.POST, value="/robots/{id}/edit")
+	public ModelAndView updateRobot(@RequestParam(name="model") RobotModel robotModel, @RequestParam(name="status") RobotStatus robotStatus, @PathVariable Long id, Model model) {
+		Robot robot = robotService.getRobot(id);
+		
+		robot = new Robot(id, robotModel, robotStatus, robot.getOrder());
+		
 		robotService.updateRobot(robot, id);
 		
-		httpServletResponse.setStatus(HttpServletResponse.SC_FOUND);
-		httpServletResponse.setHeader("Location", "/robots/" + id);
+		if(robotStatus == RobotStatus.READY && robot.getOrder() == null) {
+			robotModelService.increaseStock(robotModel);
+		}
+		
+		return new ModelAndView(new RedirectView(".."));
 	}
 	
 }

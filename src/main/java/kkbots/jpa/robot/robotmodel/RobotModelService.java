@@ -36,7 +36,7 @@ public class RobotModelService {
 	}
 	
 
-	public void updateRobotModel(RobotModel robotModel, String id) {
+	public void updateRobotModel(RobotModel robotModel, String model) {
 		robotModelRepository.save(robotModel);
 	}
 	
