@@ -22,23 +22,36 @@
       <table border="1">
         <tr>
           <th>Model</th>
-          <th>Motion</th>
-	      <th>Function</th>
-	      <th>Description</th>
+          <th>Details</th>
 	      <th>Price</th>
 	      <th>Stock</th>
 	      <th>Available</th>
 	      <th>Order</th>
+	      <th>In basket</th>
         </tr>
         <c:forEach items="${robotmodels}" var ="robotmodel">
 	        <tr>
 	          	<td>${robotmodel.model}</td>
-	          	<td>${robotmodel.motion}</td>
-	          	<td>${robotmodel.function}</td>
-	          	<td>${robotmodel.description}</td>
+	          	<td onclick="document.location = 'shop/robots/${robotmodel.model}';" style="color: #382b91; cursor: pointer;">Details</td>
 	          	<td>${robotmodel.price}</td>
 	          	<td>${robotmodel.stock}</td>
 	          	<td>${robotmodel.when_ready}</td>
+	          	<td>
+	          		<c:choose>
+		          		<c:when test="${robotmodel.stock > 0}">
+			          		<form method="post" action="addtobasket">
+			          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
+			          			<input type="submit" value="To basket" />
+			          		</form>
+		          		</c:when>
+		          		<c:otherwise>
+			          		<form method="post" action="reserve">
+			          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
+			          			<input type="submit" value="Reserve" />
+			          		</form>
+		          		</c:otherwise>
+	          		</c:choose>
+	          	</td>
 	        </tr>
         </c:forEach>
       </table>

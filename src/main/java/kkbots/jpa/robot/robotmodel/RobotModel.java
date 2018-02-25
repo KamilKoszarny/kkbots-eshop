@@ -1,6 +1,7 @@
 package kkbots.jpa.robot.robotmodel;
 
 import java.sql.Date;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,8 +25,12 @@ public class RobotModel {
 //	@OneToMany(mappedBy="robotModel", fetch=FetchType.LAZY)
 //    private List<Robot> robots;
     
-    RobotModel(){
+    public RobotModel(){
     	
+    }
+    
+    public RobotModel(String model){
+    	this.model = model;
     }
 
     public RobotModel(String model, String motion, String function, String description, double price, int stock,
@@ -39,13 +44,28 @@ public class RobotModel {
 		this.stock = stock;
 		this.when_ready = when_ready;
 	}
-
-
+    
 
 	public String toString() {
     	return model;
     }
     
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+        if (!(obj instanceof RobotModel)) return false;
+        
+		RobotModel otherModel = (RobotModel)obj;
+		String otherModelName = otherModel.model;
+
+		return otherModelName.equals(model);
+	}
+	
+	@Override
+    public int hashCode() {
+        return Objects.hash(model);
+    }
 
 	public String getModel() {
 		return model;

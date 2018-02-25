@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kkbots.jpa.robot.robotmodel.RobotModel;
+
 @Service
 public class RobotService {
 
@@ -20,6 +22,15 @@ public class RobotService {
 	
 	public Robot getRobot(Long id) {
 		return robotRepository.findOne(id);
+	}
+	
+	public Robot getRobotByModel(String strModel) {
+		RobotModel robotModel = new RobotModel(strModel);
+		return robotRepository.findAllByRobotModel(robotModel).get(0);
+	}
+	
+	public Robot getAvailableRobot(RobotModel model) {
+		return robotRepository.findByRobotModelAndStatus(model, RobotStatus.READY).get(0);
 	}
 	
 	public void addRobot(Robot robot) {

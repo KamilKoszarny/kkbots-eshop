@@ -90,9 +90,15 @@ public class UserController {
 				return new ModelAndView("customerpanel");
 	}
 	
+	@RequestMapping("/basket")
+	public String basket() {
+		return "basket";
+	}
+	
 	@RequestMapping("/logout")
 	public String logOutUser(HttpServletRequest httpServletRequest) {
 		httpServletRequest.getSession().setAttribute("user", null);
+		httpServletRequest.getSession().setAttribute("basket", null);
 		
 		return "welcome";
 	}

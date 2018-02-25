@@ -1,8 +1,11 @@
 package kkbots.jpa.robot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,6 +58,34 @@ public class RobotController {
 		}
 	}
 	
+	@RequestMapping("/shop/robots/{robotModel}")
+	public String getRobotById(@PathVariable String robotModel, Model model) {
+
+		model.addAttribute("title", "Robot " + robotModel + " details");
+		
+		Robot robot = robotService.getRobotByModel(robotModel);
+		
+		model.addAttribute("robot", robot);
+		
+		
+		return "robot";
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/addtobasket")
+	public ModelAndView addToBasket(HttpSession session, @RequestParam(name="robotmodel") RobotModel robotModel) {
+		List<Robot> basket = (List<Robot>)session.getAttribute("basket");
+		if (basket == null)
+			basket = new ArrayList<Robot>();
+		
+		Robot robot = robotService.getAvailableRobot(robotModel);
+		basket.add(robot);
+		session.setAttribute("basket", basket);
+		
+		robotModelService.decreaseStock(robotModel);
+		
+		return new ModelAndView(new RedirectView("shop"));
+	}
+	
 	@RequestMapping(method=RequestMethod.GET, value="/addrobot")
 	public String addRobot(Model model) {
 		List<RobotModel> robotModels = robotModelService.getAllRobotModels();
@@ -83,14 +114,24 @@ public class RobotController {
 	@RequestMapping(method=RequestMethod.GET, value="/robots/{id}/edit")
 	public String updateRobot(Model model, @PathVariable Long id) {
 		List<RobotModel> robotModels = robotModelService.getAllRobotModels();
-		RobotStatus[] robotStatuses = RobotStatus.values();
+		
+		List<RobotStatus> robotStatuses = new ArrayList<>(Arrays.asList(RobotStatus.values()));
+		if(robotService.getRobot(id).getOrder() == null)
+			for(Iterator<RobotStatus> iterator = robotStatuses.iterator(); iterator.hasNext();) {
+				RobotStatus status = iterator.next();
+				if(status.isOrderSpecific()) {
+					iterator.remove();
+				}
+			}
 		
 		model.addAttribute("robotmodels", robotModels);
 		model.addAttribute("robotstatuses", robotStatuses);
 		
-		model.addAttribute("thisrobotmodel", robotService.getRobot(id).getRobotModel());
-		model.addAttribute("thisrobotstatus", robotService.getRobot(id).getStatus());
-		model.addAttribute("id", id);
+		model.addAttribute("robot", robotService.getRobot(id));
+//		model.addAttribute("thisrobotmodel", robotService.getRobot(id).getRobotModel());
+//		model.addAttribute("thisrobotstatus", robotService.getRobot(id).getStatus());
+//		model.addAttribute("id", id);
+//		model.addAttribute(robotService.getRobot(id).)
 		
 		return "editrobot";
 	}

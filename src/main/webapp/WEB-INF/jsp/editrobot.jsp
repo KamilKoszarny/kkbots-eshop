@@ -1,7 +1,11 @@
+<%@page import="kkbots.jpa.robot.RobotStatus"%>
+<%@page import="kkbots.jpa.robot.robotmodel.RobotModel"%>
+<%@page import="kkbots.jpa.robot.Robot"%>
 <%@page import="kkbots.jpa.user.User"%>
 <%@page import="org.springframework.web.util.UrlPathHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%! Robot robot; %>
 <%
 	User user = (User)session.getAttribute("user");
 	if(user == null)
@@ -17,18 +21,16 @@
 </head>
 
 <body>
-	<h1>${user.role}</h1>
-
 	<h2>Edit robot</h2>
-	<h3>Robot id: ${id}</h3>
+	<h3>Robot id: ${robot.id}</h3>
 	<h3>Insert values to change:</h3>
 	<form method="post" action="edit">
 		Model:<br/>
 		<select name="model">
 			<c:forEach items="${robotmodels}" var="robotmodel" >
-				<% String thisRobotModel = request.getAttribute("thisrobotmodel").toString();
-				String robotModel = pageContext.getAttribute("robotmodel").toString();
-				if(robotModel.equals(thisRobotModel)) { %>
+				<% robot = (Robot)request.getAttribute("robot");
+				RobotModel robotModel = (RobotModel)pageContext.getAttribute("robotmodel");
+				if(robotModel == robot.getRobotModel()) { %>
 		  		<option value="${robotmodel}" selected>${robotmodel.model}</option>
 		  		<% } else { %>
 		  		<option value="${robotmodel}">${robotmodel.model}</option>
@@ -39,12 +41,11 @@
 		<br/>Status:<br/>
 		<select name="status">
 		  	<c:forEach items="${robotstatuses}" var="robotstatus" >
-		  		<% String thisRobotStatus = request.getAttribute("thisrobotstatus").toString();
-				String robotStatus = pageContext.getAttribute("robotstatus").toString();
-				if(robotStatus.equals(thisRobotStatus)) { %>
-		  		<option value="${robotstatus}" selected>${robotstatus}</option>
-		  		<% } else { %>
-		  		<option value="${robotstatus}">${robotstatus}</option>
+		  		<% RobotStatus robotStatus = (RobotStatus)pageContext.getAttribute("robotstatus");
+		  		if(robotStatus == robot.getStatus()) { %>
+			  		<option value="${robotstatus}" selected>${robotstatus}</option>
+			  		<% } else { %>
+			  		<option value="${robotstatus}">${robotstatus}</option>
 		  		<% } %>
 		  	</c:forEach>
 		</select>
