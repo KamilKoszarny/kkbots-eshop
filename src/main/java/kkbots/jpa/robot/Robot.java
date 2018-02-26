@@ -30,9 +30,12 @@ public class Robot {
 	@Enumerated(EnumType.STRING)
     private RobotStatus status;
     
-    @ManyToOne(optional=true, fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(optional=true, fetch=FetchType.EAGER)
 	@JoinColumn(name="order_id")
     private Order order;
+    
+    @JoinColumn(name="in_basket")
+    private boolean inBasket;
     
 
     public Robot() {
@@ -46,12 +49,13 @@ public class Robot {
 		this.status = status;
     }
 
-	public Robot(Long id, RobotModel model, RobotStatus status, Order order) {
+	public Robot(Long id, RobotModel model, RobotStatus status, Order order, boolean inBasket) {
 		super();
 		this.id = id;
 		this.robotModel = model;
 		this.status = status;
 		this.order = order;
+		this.inBasket = inBasket;
 	}
 
 
@@ -90,6 +94,13 @@ public class Robot {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-	
+
+	public boolean isInBasket() {
+		return inBasket;
+	}
+
+	public void setInBasket(boolean inBasket) {
+		this.inBasket = inBasket;
+	}
     
 }

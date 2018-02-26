@@ -1,5 +1,6 @@
 package kkbots.jpa.robot;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import kkbots.jpa.order.Order;
+import kkbots.jpa.order.OrderService;
 import kkbots.jpa.robot.robotmodel.RobotModel;
 import kkbots.jpa.robot.robotmodel.RobotModelService;
+import kkbots.jpa.user.User;
 
 @Controller
 public class RobotController {
@@ -78,6 +82,7 @@ public class RobotController {
 			basket = new ArrayList<Robot>();
 		
 		Robot robot = robotService.getAvailableRobot(robotModel);
+		robotService.putInBasket(robot);
 		basket.add(robot);
 		session.setAttribute("basket", basket);
 		
@@ -140,9 +145,9 @@ public class RobotController {
 	public ModelAndView updateRobot(@RequestParam(name="model") RobotModel robotModel, @RequestParam(name="status") RobotStatus robotStatus, @PathVariable Long id, Model model) {
 		Robot robot = robotService.getRobot(id);
 		
-		robot = new Robot(id, robotModel, robotStatus, robot.getOrder());
+		robot = new Robot(id, robotModel, robotStatus, robot.getOrder(), robot.isInBasket());
 		
-		robotService.updateRobot(robot, id);
+		robotService.updateRobot(robot);
 		
 		if(robotStatus == RobotStatus.READY && robot.getOrder() == null) {
 			robotModelService.increaseStock(robotModel);
@@ -150,5 +155,7 @@ public class RobotController {
 		
 		return new ModelAndView(new RedirectView(".."));
 	}
+	
+	
 	
 }

@@ -41,13 +41,13 @@
 		          		<c:when test="${robotmodel.stock > 0}">
 			          		<form method="post" action="addtobasket">
 			          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
-			          			<input type="submit" value="To basket" />
+			          			<input type="submit" value="Add to basket" />
 			          		</form>
 		          		</c:when>
 		          		<c:otherwise>
-			          		<form method="post" action="reserve">
+			          		<form method="post" action="addtobasket">
 			          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
-			          			<input type="submit" value="Reserve" />
+			          			<input type="submit" value="Add to reservation" />
 			          		</form>
 		          		</c:otherwise>
 	          		</c:choose>
@@ -58,6 +58,7 @@
     </div>
     
     <h4><a href="<%= request.getContextPath()%>/customerpanel">My panel</a></h4>
-
+	<h4><a href="<%= request.getContextPath()%>/basket">My basket</a></h4>
+	
 </body>
 </html>

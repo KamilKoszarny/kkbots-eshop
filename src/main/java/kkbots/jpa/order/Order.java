@@ -1,10 +1,13 @@
 package kkbots.jpa.order;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,14 +26,16 @@ public class Order {
 	@GeneratedValue
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=true, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY, optional=true)
 	@JoinColumn(name="customer_id")
 	private User customer;
 	
-	private Date date;
-	private String status;
+	private Timestamp date;
 	
-	@OneToMany(mappedBy="order", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@Enumerated(EnumType.STRING)
+	private OrderStatus status;
+	
+	@OneToMany(mappedBy="order", cascade=CascadeType.ALL)
 	private List<Robot> robots;
 
 	public Order() {
@@ -38,10 +43,10 @@ public class Order {
 	}
 
 
-	public Order(Long id, Long customer_id, Date date, String status) {
+	public Order(Long id, User customer, Timestamp date, OrderStatus status) {
 		super();
 		this.id = id;
-		this.customer = new User(customer_id);
+		this.customer = customer;
 		this.date = date;
 		this.status = status;
 	}
@@ -67,22 +72,22 @@ public class Order {
 	}
 
 
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 
 
-	public String getStatus() {
+	public OrderStatus getStatus() {
 		return status;
 	}
 
 
-	public void setStatus(String status) {
+	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
 	

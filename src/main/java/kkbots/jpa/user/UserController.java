@@ -16,11 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import kkbots.jpa.robot.Robot;
+import kkbots.jpa.robot.RobotService;
+import kkbots.jpa.robot.robotmodel.RobotModelService;
+
 @Controller
 public class UserController {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	RobotService robotService;
+	@Autowired
+	RobotModelService robotModelService;
 	
 	@RequestMapping("/users")
 	public List<User> getAllUsers() {
@@ -97,9 +105,22 @@ public class UserController {
 	
 	@RequestMapping("/logout")
 	public String logOutUser(HttpServletRequest httpServletRequest) {
+		cleanBasket(httpServletRequest);
+		
 		httpServletRequest.getSession().setAttribute("user", null);
-		httpServletRequest.getSession().setAttribute("basket", null);
 		
 		return "welcome";
+	}
+	
+	private void cleanBasket(HttpServletRequest httpServletRequest) {
+		List<Robot> robotsInBasket = (List<Robot>)httpServletRequest.getSession().getAttribute("basket");
+		if (robotsInBasket != null) {
+			robotsInBasket.forEach(robot->{
+				robotService.removeFromBasket(robot);
+				robotModelService.increaseStock(robot.getRobotModel());
+			});
+			
+			httpServletRequest.getSession().setAttribute("basket", null);
+		}
 	}
 }

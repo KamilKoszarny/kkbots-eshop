@@ -34,6 +34,7 @@
 			<th>Sum</th>
 		</tr>
 		<% 
+		sumPrice = 0;
 		Map<RobotModel, Integer> robotModelMap = new HashMap<>();
 		for(Robot robot: basket){
 			RobotModel robotModel = robot.getRobotModel();
@@ -65,6 +66,10 @@
 			<td><%= sumPrice %></td>
 		</tr>
 	</table >
+	
+	<form method="post" action="order">
+		<input type="submit" value="Place order" />
+	</form>
 		
 		
 </body>

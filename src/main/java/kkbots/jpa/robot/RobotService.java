@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kkbots.jpa.order.Order;
 import kkbots.jpa.robot.robotmodel.RobotModel;
 
 @Service
@@ -30,14 +31,29 @@ public class RobotService {
 	}
 	
 	public Robot getAvailableRobot(RobotModel model) {
-		return robotRepository.findByRobotModelAndStatus(model, RobotStatus.READY).get(0);
+		return robotRepository.findByRobotModelAndStatusAndOrderAndInBasket(model, RobotStatus.READY, null, false).get(0);
+	}
+	
+	public void putInBasket(Robot robot) {
+		robot.setInBasket(true);
+		updateRobot(robot);
+	}
+	
+	public void removeFromBasket(Robot robot) {
+		robot.setInBasket(false);
+		updateRobot(robot);
+	}
+	
+	public void setOrdered(Robot robot, Order order) {
+		robot.setOrder(order);
+		updateRobot(robot);
 	}
 	
 	public void addRobot(Robot robot) {
 		robotRepository.save(robot);
 	}
 	
-	public void updateRobot(Robot robot, Long id) {
+	public void updateRobot(Robot robot) {
 		robotRepository.save(robot);
 	}
 	
