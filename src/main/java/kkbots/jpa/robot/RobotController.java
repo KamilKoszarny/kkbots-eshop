@@ -121,22 +121,11 @@ public class RobotController {
 		List<RobotModel> robotModels = robotModelService.getAllRobotModels();
 		
 		List<RobotStatus> robotStatuses = new ArrayList<>(Arrays.asList(RobotStatus.values()));
-		if(robotService.getRobot(id).getOrder() == null)
-			for(Iterator<RobotStatus> iterator = robotStatuses.iterator(); iterator.hasNext();) {
-				RobotStatus status = iterator.next();
-				if(status.isOrderSpecific()) {
-					iterator.remove();
-				}
-			}
 		
 		model.addAttribute("robotmodels", robotModels);
 		model.addAttribute("robotstatuses", robotStatuses);
 		
 		model.addAttribute("robot", robotService.getRobot(id));
-//		model.addAttribute("thisrobotmodel", robotService.getRobot(id).getRobotModel());
-//		model.addAttribute("thisrobotstatus", robotService.getRobot(id).getStatus());
-//		model.addAttribute("id", id);
-//		model.addAttribute(robotService.getRobot(id).)
 		
 		return "editrobot";
 	}

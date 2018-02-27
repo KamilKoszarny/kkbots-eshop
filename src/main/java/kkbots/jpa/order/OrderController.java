@@ -3,16 +3,16 @@ package kkbots.jpa.order;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -32,17 +32,55 @@ public class OrderController {
 	UserService userService;
 	
 	@RequestMapping("/orders")
-	public String getAllOrders(HttpSession session) {
+	public String getAllOrders(HttpSession session, Model model) {
 		User user = (User)session.getAttribute("user");
-		List<Order> orders = orderService.getOrdersByCustomer(user);
+		List<Order> orders;
+		if (user.getRole().equals("customer")) {
+			orders = orderService.getOrdersByCustomer(user);
+			model.addAttribute("title", "My orders");
+		} else {
+			orders = orderService.getAllOrders();
+			model.addAttribute("title", "All orders");
+		}
 		orders.forEach(order->{
 			List<Robot> robots = robotService.getRobotsByOrder(order);
 			order.setRobots(robots);
 		});
-		orderService.updateOrdersStatus(user);
+		orderService.updateOrdersStatusByRobotsAvailability(user);
 		user.setOrders(orders);
 		session.setAttribute("user", user);
 		return "orders";
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/pay")
+	public ModelAndView pay(@RequestParam(name="orderid") Long orderId) {
+		updateOrder(orderId, OrderStatus.PAYMENT);
+		return new ModelAndView(new RedirectView("orders"));
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/confirmpayment")
+	public ModelAndView confirmPayment(@RequestParam(name="orderid") Long orderId) {
+		updateOrder(orderId, OrderStatus.TO_SEND);
+		return new ModelAndView(new RedirectView("orders"));
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/confirmsend")
+	public ModelAndView confirmSend(@RequestParam(name="orderid") Long orderId) {
+		updateOrder(orderId, OrderStatus.SEND);
+		return new ModelAndView(new RedirectView("orders"));
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/confirmreceived")
+	public ModelAndView confirmReceived(@RequestParam(name="orderid") Long orderId) {
+		updateOrder(orderId, OrderStatus.SOLD);
+		return new ModelAndView(new RedirectView("orders"));
+	}
+	
+	private void updateOrder(Long id, OrderStatus status) {
+		Order order = orderService.getOrder(id);
+		order.setStatus(status);
+		order.setStatusDate(new java.sql.Timestamp(new java.util.Date().getTime()));
+		orderService.updateOrder(order);
 	}
 	
 	@RequestMapping("/basket")
@@ -56,11 +94,11 @@ public class OrderController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/robots/{robotId}/orders")
-	public String addOrder(@PathVariable Long robotId, HttpServletRequest httpServletRequest) {
+	public String addOrder(@PathVariable Long robotId, HttpSession session) {
 		
-		List<Long> orderList = (List<Long>)httpServletRequest.getSession().getAttribute("orderList");
+		List<Long> orderList = (List<Long>)session.getAttribute("orderList");
 		orderList.add(robotId);
-		httpServletRequest.getSession().setAttribute("orderList", orderList);
+		session.setAttribute("orderList", orderList);
 		
 		return "robots";
 		

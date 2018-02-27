@@ -58,23 +58,20 @@ public class RobotModelService {
 				int waitingDays = 0;
 				boolean daysCounting = false;
 				for(RobotStatus status: RobotStatus.values()) {
-					if(!status.isOrderSpecific()) {
-						if(status.equals(mostReadyRobot.getStatus()))
-							daysCounting = true;
-						if(daysCounting)
-							waitingDays += status.getDuration();
-					}
+					if(status.equals(mostReadyRobot.getStatus()))
+						daysCounting = true;
+					if(daysCounting)
+						waitingDays += status.getDuration();
 				}
 				Calendar c = Calendar.getInstance();
 				c.setTime(whenReady);
 				c.add(Calendar.DATE, waitingDays);
 				whenReady = new Date(c.getTimeInMillis());
-				
 			} else 
 				whenReady = null;
 			
 			for(RobotStatus status: RobotStatus.values()) 
-				if (!status.isOrderSpecific() && !(status == RobotStatus.READY))
+				if (!(status == RobotStatus.READY))
 					inProduction += robotRepository.findAllByRobotModelAndStatusAndOrderAndInBasket(model, status, null, false).size();
 			
 			model.setStock(stock);

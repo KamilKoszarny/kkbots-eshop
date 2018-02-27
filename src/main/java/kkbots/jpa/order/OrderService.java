@@ -42,12 +42,19 @@ public class OrderService {
 		orderRepository.save(order);
 	}
 	
-	public void updateOrdersStatus(User user) {
+	public void updateOrdersStatusByRobotsAvailability(User user) {
 		List<Order> orders = getOrdersByCustomer(user);
 		orders.forEach(order->{
 			OrderStatus orderStatusBefore = order.getStatus();
-			RobotStatus lRRStatus = getLeastReadyRobotStatus(order);
-			order.setStatus(getOrderStatusByLeastReadyRobotStatus(lRRStatus));
+			
+			if(orderStatusBefore.equals(OrderStatus.COMPLETING)) {
+				RobotStatus lRRStatus = getLeastReadyRobotStatus(order);
+				if(!lRRStatus.equals(RobotStatus.READY))
+					order.setStatus(OrderStatus.COMPLETING);
+				else
+					order.setStatus(OrderStatus.READY);
+			}
+			
 			if (!order.getStatus().equals(orderStatusBefore))
 				order.setStatusDate(new java.sql.Timestamp(new java.util.Date().getTime()));
 			updateOrder(order);
@@ -69,20 +76,6 @@ public class OrderService {
 		}
 		
 		return lRRStatus;
-	}
-	
-	private OrderStatus getOrderStatusByLeastReadyRobotStatus(RobotStatus lRRStatus) {
-		if(!lRRStatus.isOrderSpecific() && !lRRStatus.equals(RobotStatus.READY))
-			return OrderStatus.COMPLETING;
-		else if (lRRStatus.equals(RobotStatus.READY))
-			return OrderStatus.PAYMENT;
-		else if (lRRStatus.equals(RobotStatus.TO_SEND))
-			return OrderStatus.TO_SEND;
-		else if (lRRStatus.equals(RobotStatus.SEND))
-			return OrderStatus.SEND;
-		else if (lRRStatus.equals(RobotStatus.SOLD))
-			return OrderStatus.SOLD;
-		return null;
 	}
 	
 	public void deleteOrder(Long id) {

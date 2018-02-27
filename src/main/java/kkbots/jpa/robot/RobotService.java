@@ -36,11 +36,9 @@ public class RobotService {
 		RobotStatus status;
 		for(int i = statuses.length - 1; i >= 0; i--) {
 			status = statuses[i];
-			if(!status.isOrderSpecific()) {
-				robots = robotRepository.findAllByRobotModelAndStatusAndOrderAndInBasket(model, status, null, false);
-				if (!robots.isEmpty())
-					return robots.get(0);
-			}
+			robots = robotRepository.findAllByRobotModelAndStatusAndOrderAndInBasket(model, status, null, false);
+			if (!robots.isEmpty())
+				return robots.get(0);
 		}
 		return null;
 	}
