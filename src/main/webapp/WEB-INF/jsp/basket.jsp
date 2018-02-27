@@ -17,7 +17,8 @@
 		response.sendRedirect("welcome");
 %>
 <%! double sumPrice = 0; int robotCount = 0;%>
-<% List<Robot> basket = (List<Robot>)session.getAttribute("basket"); %>
+<% List<Robot> basket = (List<Robot>)session.getAttribute("basket"); 
+	if(basket == null) basket = new ArrayList<Robot>();%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -51,13 +52,12 @@
 		    sumPrice += robotCount * robotModel.getPrice();
 		%>
 			<tr>
-				<td><%= robotModel.getModel() %></td>
+				<td onclick="document.location = 'shop/robots/<%= robotModel.getModel() %>';" style="color: #382b91; cursor: pointer;"><%= robotModel.getModel() %></td>
 				<td><%= robotModel.getPrice() %></td>
 				<td><%= robotCount %></td>
 				<td><%= robotCount * robotModel.getPrice()%></td>
 			</tr>
 		<% } %>
-		
 		
 		<tr>
 			<td></td>
@@ -70,6 +70,7 @@
 	<form method="post" action="order">
 		<input type="submit" value="Place order" />
 	</form>
+	<h4><a href="<%= request.getContextPath()%>/shop">Back to shop</a></h4>
 		
 		
 </body>

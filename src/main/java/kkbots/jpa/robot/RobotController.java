@@ -50,7 +50,7 @@ public class RobotController {
 		
 		if (delete != null) {
 			if (robot.getStatus() == RobotStatus.READY && robot.getOrder() == null)
-				robotModelService.decreaseStock(robot.getRobotModel());
+				robotModelService.updateStockAndInProduction();
 			robotService.deleteRobot(id);
 			return getAllRobots(model);
 		} else {
@@ -86,7 +86,7 @@ public class RobotController {
 		basket.add(robot);
 		session.setAttribute("basket", basket);
 		
-		robotModelService.decreaseStock(robotModel);
+		robotModelService.updateStockAndInProduction();
 		
 		return new ModelAndView(new RedirectView("shop"));
 	}
@@ -110,7 +110,7 @@ public class RobotController {
 		robotService.addRobot(robot);
 		
 		if(robotStatus == RobotStatus.READY) {
-			robotModelService.increaseStock(robotModel);
+			robotModelService.updateStockAndInProduction();
 		}
 		
 		return new ModelAndView(new RedirectView("/robots"));
@@ -145,12 +145,12 @@ public class RobotController {
 	public ModelAndView updateRobot(@RequestParam(name="model") RobotModel robotModel, @RequestParam(name="status") RobotStatus robotStatus, @PathVariable Long id, Model model) {
 		Robot robot = robotService.getRobot(id);
 		
-		robot = new Robot(id, robotModel, robotStatus, robot.getOrder(), robot.isInBasket());
+		robot = new Robot(id, robotModel, robotStatus, robot.getStatusDate(), robot.getOrder(), robot.isInBasket());
 		
 		robotService.updateRobot(robot);
 		
 		if(robotStatus == RobotStatus.READY && robot.getOrder() == null) {
-			robotModelService.increaseStock(robotModel);
+			robotModelService.updateStockAndInProduction();
 		}
 		
 		return new ModelAndView(new RedirectView(".."));

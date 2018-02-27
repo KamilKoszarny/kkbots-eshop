@@ -17,7 +17,7 @@
 		<h4>Id: ${robot.id}</h4>
 		<h4>Model: ${robot.robotModel.model}</h4>
 		<h4>Status: ${robot.status}</h4>
-	
+		<h4>Status date: ${robot.statusDate}</h4>
 		<h3>Robot model details:</h3>
 	</c:if>
 	
@@ -26,7 +26,8 @@
 	<h4>Description: ${robot.robotModel.description}</h4>
 	<h4>Price: ${robot.robotModel.price}</h4>
     <h4>Stock: ${robot.robotModel.stock}</h4>
-    <h4>Available: ${robot.robotModel.when_ready}</h4>
+    <h4>In production: ${robot.robotModel.inProduction}</h4>
+    <h4>Available: ${robot.robotModel.whenReady}</h4>
     
     <c:if test="${user.role == 'admin'}">
 	    <form method="get" action="<%= request.getContextPath()%>/robots/${robot.id}/edit">
@@ -40,17 +41,20 @@
 	</c:if>
 	<c:if test="${user.role == 'customer'}">
 		<c:choose>
-     		<c:when test="${robot.robotModel.stock > 0}">
+        	<c:when test="${robot.robotModel.stock > 0}">
 	      		<form method="post" action="addtobasket">
-	      			<input type="hidden" name="robotmodel" value="${robot.robotModel}" />
-	      			<input type="submit" value="To basket" />
+	      			<input type="hidden" name="robotmodel" value="${robotmodel}" />
+	      			<input type="submit" value="Add to basket" />
+	      		</form>
+     		</c:when>
+     		<c:when test="${robot.robotModel.inProduction > 0}">
+	      		<form method="post" action="addtobasket">
+	      			<input type="hidden" name="robotmodel" value="${robotmodel}" />
+	      			<input type="submit" value="Reserve in basket" />
 	      		</form>
      		</c:when>
      		<c:otherwise>
-	      		<form method="post" action="reserve">
-	      			<input type="hidden" name="robotmodel" value="${robot.robotModel}" />
-	      			<input type="submit" value="Reserve" />
-	      		</form>
+      			No robots available at this moment;
      		</c:otherwise>
     	</c:choose>
 	</c:if>

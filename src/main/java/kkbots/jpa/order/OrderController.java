@@ -19,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import kkbots.jpa.robot.Robot;
 import kkbots.jpa.robot.RobotService;
 import kkbots.jpa.user.User;
+import kkbots.jpa.user.UserService;
 
 @Controller
 public class OrderController {
@@ -27,10 +28,26 @@ public class OrderController {
 	OrderService orderService;
 	@Autowired
 	RobotService robotService;
+	@Autowired
+	UserService userService;
 	
 	@RequestMapping("/orders")
-	public List<Order> getAllOrders() {
-		return orderService.getAllOrders();
+	public String getAllOrders(HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		List<Order> orders = orderService.getOrdersByCustomer(user);
+		orders.forEach(order->{
+			List<Robot> robots = robotService.getRobotsByOrder(order);
+			order.setRobots(robots);
+		});
+		orderService.updateOrdersStatus(user);
+		user.setOrders(orders);
+		session.setAttribute("user", user);
+		return "orders";
+	}
+	
+	@RequestMapping("/basket")
+	public String basket() {
+		return "basket";
 	}
 	
 	@RequestMapping("/orders/{id}")
@@ -52,7 +69,7 @@ public class OrderController {
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/orders/{id}")
 	public void updateOrder(@RequestBody Order order, @PathVariable Long id) {
-		orderService.updateOrder(order, id);
+		orderService.updateOrder(order);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/orders/{id}")
@@ -64,12 +81,14 @@ public class OrderController {
 	public ModelAndView placeOrder(HttpSession session) {
 		List<Robot> basket = (List<Robot>)session.getAttribute("basket");
 		User customer = (User)session.getAttribute("user");
-		Order order = new Order(0l, customer, new java.sql.Timestamp(new java.util.Date().getTime()), OrderStatus.COMPLETING);
+		Order order = new Order(0l, customer, new java.sql.Timestamp(new java.util.Date().getTime()), OrderStatus.COMPLETING, new java.sql.Timestamp(new java.util.Date().getTime()));
 		order.setRobots(basket);
 		
 		order.getRobots().forEach(robot->{
 			robot.setOrder(order);
 		});
+		
+		customer.addOrder(order);
 		
 		orderService.addOrder(order);
 		

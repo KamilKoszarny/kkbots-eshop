@@ -25,6 +25,7 @@ public class RobotModelController {
 
 	@RequestMapping("/shop")
 	public String shop(Model model) {
+		robotModelService.updateStockAndInProduction();
 		List<RobotModel> robotModels = robotModelService.getAllRobotModels();
 		model.addAttribute("robotmodels", robotModels);
 		

@@ -22,20 +22,20 @@
       <table border="1">
         <tr>
           <th>Model</th>
-          <th>Details</th>
 	      <th>Price</th>
 	      <th>Stock</th>
+	      <th>In production</th>
 	      <th>Available</th>
 	      <th>Order</th>
 	      <th>In basket</th>
         </tr>
         <c:forEach items="${robotmodels}" var ="robotmodel">
 	        <tr>
-	          	<td>${robotmodel.model}</td>
-	          	<td onclick="document.location = 'shop/robots/${robotmodel.model}';" style="color: #382b91; cursor: pointer;">Details</td>
+	          	<td onclick="document.location = 'shop/robots/${robotmodel.model}';" style="color: #382b91; cursor: pointer;">${robotmodel.model}</td>
 	          	<td>${robotmodel.price}</td>
 	          	<td>${robotmodel.stock}</td>
-	          	<td>${robotmodel.when_ready}</td>
+	          	<td>${robotmodel.inProduction}</td>
+	          	<td>${robotmodel.whenReady}</td>
 	          	<td>
 	          		<c:choose>
 		          		<c:when test="${robotmodel.stock > 0}">
@@ -44,11 +44,14 @@
 			          			<input type="submit" value="Add to basket" />
 			          		</form>
 		          		</c:when>
-		          		<c:otherwise>
+		          		<c:when test="${robotmodel.inProduction > 0}">
 			          		<form method="post" action="addtobasket">
 			          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
-			          			<input type="submit" value="Add to reservation" />
+			          			<input type="submit" value="Reserve in basket" />
 			          		</form>
+		          		</c:when>
+		          		<c:otherwise>
+			          		No robots available at this moment;
 		          		</c:otherwise>
 	          		</c:choose>
 	          	</td>

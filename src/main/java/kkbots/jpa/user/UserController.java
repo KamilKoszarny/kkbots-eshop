@@ -98,10 +98,6 @@ public class UserController {
 				return new ModelAndView("customerpanel");
 	}
 	
-	@RequestMapping("/basket")
-	public String basket() {
-		return "basket";
-	}
 	
 	@RequestMapping("/logout")
 	public String logOutUser(HttpServletRequest httpServletRequest) {
@@ -117,7 +113,7 @@ public class UserController {
 		if (robotsInBasket != null) {
 			robotsInBasket.forEach(robot->{
 				robotService.removeFromBasket(robot);
-				robotModelService.increaseStock(robot.getRobotModel());
+				robotModelService.updateStockAndInProduction();
 			});
 			
 			httpServletRequest.getSession().setAttribute("basket", null);

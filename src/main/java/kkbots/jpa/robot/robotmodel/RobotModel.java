@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +20,12 @@ public class RobotModel {
 	private String description;
 	private double price;
 	private int stock;
-	private Date when_ready;
+	
+	@JoinColumn(name="in_production")
+	private int inProduction;
+	
+	@JoinColumn(name="when_ready")
+	private Date whenReady;
 	
 
 //	@OneToMany(mappedBy="robotModel", fetch=FetchType.LAZY)
@@ -34,7 +40,7 @@ public class RobotModel {
     }
 
     public RobotModel(String model, String motion, String function, String description, double price, int stock,
-			Date when_ready) {
+			int inProduction, Date whenReady) {
 		super();
 		this.model = model;
 		this.motion = motion;
@@ -42,9 +48,9 @@ public class RobotModel {
 		this.description = description;
 		this.price = price;
 		this.stock = stock;
-		this.when_ready = when_ready;
+		this.inProduction = inProduction;
+		this.whenReady = whenReady;
 	}
-    
 
 	public String toString() {
     	return model;
@@ -115,12 +121,20 @@ public class RobotModel {
 		this.stock = stock;
 	}
 
-	public Date getWhen_ready() {
-		return when_ready;
+	public int getInProduction() {
+		return inProduction;
 	}
 
-	public void setWhen_ready(Date when_ready) {
-		this.when_ready = when_ready;
+	public void setInProduction(int inProduction) {
+		this.inProduction = inProduction;
+	}
+
+	public Date getWhenReady() {
+		return whenReady;
+	}
+
+	public void setWhenReady(Date whenReady) {
+		this.whenReady = whenReady;
 	}
 	
 //	public List<Robot> getRobots() {

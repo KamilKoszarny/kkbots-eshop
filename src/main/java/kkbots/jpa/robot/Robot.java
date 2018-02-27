@@ -29,8 +29,11 @@ public class Robot {
 	
 	@Enumerated(EnumType.STRING)
     private RobotStatus status;
+	
+	@JoinColumn(name="status_date")
+	private Date statusDate;
     
-    @ManyToOne(optional=true, fetch=FetchType.EAGER)
+    @ManyToOne(optional=true, fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="order_id")
     private Order order;
     
@@ -49,16 +52,18 @@ public class Robot {
 		this.status = status;
     }
 
-	public Robot(Long id, RobotModel model, RobotStatus status, Order order, boolean inBasket) {
+	public Robot(Long id, RobotModel robotModel, RobotStatus status, Date statusDate, Order order,
+			boolean inBasket) {
 		super();
 		this.id = id;
-		this.robotModel = model;
+		this.robotModel = robotModel;
 		this.status = status;
+		this.statusDate = statusDate;
 		this.order = order;
 		this.inBasket = inBasket;
 	}
 
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -84,12 +89,18 @@ public class Robot {
 	public void setStatus(RobotStatus status) {
 		this.status = status;
 	}
+	
+	public Date getStatusDate() {
+		return statusDate;
+	}
 
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
+	}
 
 	public Order getOrder() {
 		return order;
 	}
-
 
 	public void setOrder(Order order) {
 		this.order = order;

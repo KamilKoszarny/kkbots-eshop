@@ -10,5 +10,6 @@ import kkbots.jpa.robot.robotmodel.RobotModel;
 public interface RobotRepository extends CrudRepository<Robot, Long>{
 
 	List<Robot> findAllByRobotModel(RobotModel model);
-	List<Robot> findByRobotModelAndStatusAndOrderAndInBasket(RobotModel model, RobotStatus status, Order order, boolean inBasket);
+	List<Robot> findAllByRobotModelAndStatusAndOrderAndInBasket(RobotModel model, RobotStatus status, Order order, boolean inBasket);
+	List<Robot> findAllByOrder(Order order);
 }

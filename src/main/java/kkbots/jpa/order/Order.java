@@ -26,7 +26,7 @@ public class Order {
 	@GeneratedValue
 	private Long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional=true)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="customer_id")
 	private User customer;
 	
@@ -35,20 +35,25 @@ public class Order {
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 	
-	@OneToMany(mappedBy="order", cascade=CascadeType.ALL)
+	@JoinColumn(name="status_date")
+	private Timestamp statusDate;
+	
+	@OneToMany(mappedBy="order", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<Robot> robots;
+	
 
 	public Order() {
 		
 	}
 
 
-	public Order(Long id, User customer, Timestamp date, OrderStatus status) {
+	public Order(Long id, User customer, Timestamp date, OrderStatus status, Timestamp statusDate) {
 		super();
 		this.id = id;
 		this.customer = customer;
 		this.date = date;
 		this.status = status;
+		this.statusDate = statusDate;
 	}
 
 
@@ -99,5 +104,14 @@ public class Order {
 	public void setRobots(List<Robot> robots) {
 		this.robots = robots;
 	}
-	
+
+
+	public Timestamp getStatusDate() {
+		return statusDate;
+	}
+
+
+	public void setStatusDate(Timestamp statusDate) {
+		this.statusDate = statusDate;
+	}
 }
