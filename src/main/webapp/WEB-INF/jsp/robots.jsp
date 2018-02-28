@@ -40,8 +40,15 @@
 					</form>
 				</td>
 				<td>
+					<%! String message = ""; %>
+					<c:if test="${robot.order.id == NULL}">
+						<% message = "Are you sure to delete this robot from database?"; %>
+					</c:if>
+					<c:if test="${robot.order.id != NULL}">
+						<% message = "You can not delete orderer robot from database!"; %>
+					</c:if>
 					<form method="get" action="<%= request.getContextPath()%>/robots/${robot.id}"
-							onsubmit="return confirm('Are you sure to delete this robot from database?')">
+							onsubmit="return confirm('<%= message%>')">
 						<input type="hidden" name="delete" value="true">
 						<input type="submit" value="delete">
 					</form>

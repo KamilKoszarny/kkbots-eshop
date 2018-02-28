@@ -18,7 +18,7 @@
 	<h2>Admin panel</h2>
 	<h3>Login: ${user.login}</h3>
 	<h3>Full name: ${user.name} ${user.surname}</h3>
-	
+	<h4><a href="<%= request.getContextPath()%>/orders">Orders</a></h4>
 	<h4><a href="robots">List of robots</a></h4>
 	<form method="get" action="logout">
 		<input type="submit" value="Log out" />

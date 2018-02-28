@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,6 +108,7 @@ public class UserController {
 	}
 	
 	private void cleanBasket(HttpServletRequest httpServletRequest) {
+		@SuppressWarnings("unchecked")
 		List<Robot> robotsInBasket = (List<Robot>)httpServletRequest.getSession().getAttribute("basket");
 		if (robotsInBasket != null) {
 			robotsInBasket.forEach(robot->{

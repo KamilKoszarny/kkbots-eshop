@@ -31,12 +31,12 @@
     
     <c:if test="${user.role == 'admin'}">
 	    <form method="get" action="<%= request.getContextPath()%>/robots/${robot.id}/edit">
-			<input type="submit" value="edit">
+			<input type="submit" value="EDIT">
 		</form>
 	    <form method="get" action="<%= request.getContextPath()%>/robots/${robot.id}"
 				onsubmit="return confirm('Are you sure to delete this robot from database?')">
 			<input type="hidden" name="delete" value="true">
-			<input type="submit" value="delete">
+			<input type="submit" value="DELETE">
 		</form>
 	</c:if>
 	<c:if test="${user.role == 'customer'}">

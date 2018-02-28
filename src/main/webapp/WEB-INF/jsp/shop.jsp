@@ -35,26 +35,36 @@
 	          	<td>${robotmodel.price}</td>
 	          	<td>${robotmodel.stock}</td>
 	          	<td>${robotmodel.inProduction}</td>
-	          	<td>${robotmodel.whenReady}</td>
-	          	<td>
+	          	
+	          	
 	          		<c:choose>
 		          		<c:when test="${robotmodel.stock > 0}">
-			          		<form method="post" action="addtobasket">
-			          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
-			          			<input type="submit" value="Add to basket" />
-			          		</form>
+		          			<td></td>
+		          			<td>
+				          		<form method="post" action="addtobasket">
+				          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
+				          			<input type="submit" value="Add to basket" />
+				          		</form>
+			          		</td>
 		          		</c:when>
 		          		<c:when test="${robotmodel.inProduction > 0}">
-			          		<form method="post" action="addtobasket">
-			          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
-			          			<input type="submit" value="Reserve in basket" />
-			          		</form>
+		          			<td>${robotmodel.whenReady}</td>
+		          			<td>
+				          		<form method="post" action="addtobasket">
+				          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
+				          			<input type="submit" value="Reserve in basket" />
+				          		</form>
+			          		</td>
 		          		</c:when>
 		          		<c:otherwise>
-			          		No robots available at this moment;
+		          			<td></td>
+		          			<td>
+			          			No robots available at this moment;
+			          		</td>
 		          		</c:otherwise>
+		          		
 	          		</c:choose>
-	          	</td>
+	          	
 	        </tr>
         </c:forEach>
       </table>

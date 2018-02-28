@@ -2,7 +2,6 @@ package kkbots.jpa.robot;
 
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,7 +32,7 @@ public class Robot {
 	@JoinColumn(name="status_date")
 	private Date statusDate;
     
-    @ManyToOne(optional=true, fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToOne(optional=true, fetch=FetchType.EAGER)
 	@JoinColumn(name="order_id")
     private Order order;
     
@@ -44,12 +43,17 @@ public class Robot {
     public Robot() {
     	
     }
+    
+    public Robot(RobotStatus status) {
+    	this.status = status;
+    }
 
-    public Robot(Long id, RobotModel model, RobotStatus status) {
+    public Robot(Long id, RobotModel model, RobotStatus status,  Date statusDate) {
     	super();
 		this.id = id;
 		this.robotModel = model;
 		this.status = status;
+		this.statusDate = statusDate;
     }
 
 	public Robot(Long id, RobotModel robotModel, RobotStatus status, Date statusDate, Order order,

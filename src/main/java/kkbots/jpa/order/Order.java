@@ -44,6 +44,10 @@ public class Order {
 	public Order() {
 		
 	}
+	
+	public Order(List<Robot> robots) {
+		this.robots = robots;
+	}
 
 
 	public Order(Long id, User customer, Timestamp date, OrderStatus status, Timestamp statusDate) {

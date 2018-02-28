@@ -1,10 +1,7 @@
 package kkbots.jpa.order;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EnumType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +39,7 @@ public class OrderService {
 		orderRepository.save(order);
 	}
 	
-	public void updateOrdersStatusByRobotsAvailability(User user) {
-		List<Order> orders = getOrdersByCustomer(user);
+	public void updateOrdersStatusByRobotsAvailability(List<Order> orders) {
 		orders.forEach(order->{
 			OrderStatus orderStatusBefore = order.getStatus();
 			
@@ -61,7 +57,7 @@ public class OrderService {
 		});
 	}
 	
-	private RobotStatus getLeastReadyRobotStatus(Order order) {
+	public RobotStatus getLeastReadyRobotStatus(Order order) {
 		List<Robot> robots = order.getRobots();
 		RobotStatus lRRStatus = RobotStatus.values()[RobotStatus.values().length - 1];
 		List<RobotStatus> statuses = new ArrayList<>();

@@ -62,7 +62,12 @@
 			    sumPrice += robotCount * robotModel.getPrice();
 			%>
 				<tr>
-					<td onclick="document.location = 'shop/robots/<%= robotModel.getModel() %>';" style="color: #382b91; cursor: pointer;"><%= robotModel.getModel() %></td>
+					<c:if test="${user.role == 'admin' }">
+						<td><%= robotModel.getModel() %></td>
+					</c:if>
+					<c:if test="${user.role == 'customer' }">
+						<td onclick="document.location = 'shop/robots/<%= robotModel.getModel() %>';" style="color: #382b91; cursor: pointer;"><%= robotModel.getModel() %></td>
+					</c:if>
 					<td><%= robotModel.getPrice() %></td>
 					<td><%= robotCount %></td>
 					<td><%= robotCount * robotModel.getPrice()%></td>

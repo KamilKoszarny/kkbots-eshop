@@ -19,7 +19,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import kkbots.jpa.robot.Robot;
 import kkbots.jpa.robot.RobotService;
 import kkbots.jpa.user.User;
-import kkbots.jpa.user.UserService;
 
 @Controller
 public class OrderController {
@@ -28,8 +27,6 @@ public class OrderController {
 	OrderService orderService;
 	@Autowired
 	RobotService robotService;
-	@Autowired
-	UserService userService;
 	
 	@RequestMapping("/orders")
 	public String getAllOrders(HttpSession session, Model model) {
@@ -46,7 +43,7 @@ public class OrderController {
 			List<Robot> robots = robotService.getRobotsByOrder(order);
 			order.setRobots(robots);
 		});
-		orderService.updateOrdersStatusByRobotsAvailability(user);
+		orderService.updateOrdersStatusByRobotsAvailability(orders);
 		user.setOrders(orders);
 		session.setAttribute("user", user);
 		return "orders";
@@ -96,13 +93,12 @@ public class OrderController {
 	@RequestMapping(method=RequestMethod.POST, value="/robots/{robotId}/orders")
 	public String addOrder(@PathVariable Long robotId, HttpSession session) {
 		
+		@SuppressWarnings("unchecked")
 		List<Long> orderList = (List<Long>)session.getAttribute("orderList");
 		orderList.add(robotId);
 		session.setAttribute("orderList", orderList);
 		
 		return "robots";
-		
-		//orderService.addOrder(order);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/orders/{id}")
@@ -117,6 +113,7 @@ public class OrderController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/order")
 	public ModelAndView placeOrder(HttpSession session) {
+		@SuppressWarnings("unchecked")
 		List<Robot> basket = (List<Robot>)session.getAttribute("basket");
 		User customer = (User)session.getAttribute("user");
 		Order order = new Order(0l, customer, new java.sql.Timestamp(new java.util.Date().getTime()), OrderStatus.COMPLETING, new java.sql.Timestamp(new java.util.Date().getTime()));

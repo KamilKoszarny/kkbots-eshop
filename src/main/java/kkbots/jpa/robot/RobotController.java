@@ -1,9 +1,7 @@
 package kkbots.jpa.robot;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import kkbots.jpa.order.Order;
-import kkbots.jpa.order.OrderService;
 import kkbots.jpa.robot.robotmodel.RobotModel;
 import kkbots.jpa.robot.robotmodel.RobotModelService;
-import kkbots.jpa.user.User;
 
 @Controller
 public class RobotController {
@@ -77,6 +72,7 @@ public class RobotController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/addtobasket")
 	public ModelAndView addToBasket(HttpSession session, @RequestParam(name="robotmodel") RobotModel robotModel) {
+		@SuppressWarnings("unchecked")
 		List<Robot> basket = (List<Robot>)session.getAttribute("basket");
 		if (basket == null)
 			basket = new ArrayList<Robot>();
@@ -105,7 +101,7 @@ public class RobotController {
 	@RequestMapping(method=RequestMethod.POST, value="/addrobot")
 	public ModelAndView addRobot(@RequestParam(name="model") RobotModel robotModel, @RequestParam(name="status") RobotStatus robotStatus, Model model) {
 		model.addAttribute("title", "Added robot:");
-		Robot robot = new Robot(0l, robotModel, robotStatus);
+		Robot robot = new Robot(0l, robotModel, robotStatus, new java.sql.Date(new java.util.Date().getTime()));
 		
 		robotService.addRobot(robot);
 		
