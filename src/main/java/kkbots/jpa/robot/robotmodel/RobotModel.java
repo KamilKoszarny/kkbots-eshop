@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import kkbots.jpa.robot.Robot;
 
@@ -34,6 +35,9 @@ public class RobotModel {
 	
 	@OneToMany(mappedBy="robotModel", fetch=FetchType.LAZY)
     private List<Robot> robots;
+	
+	@Transient
+	private int robotCount;
     
     public RobotModel(){
     	
@@ -147,6 +151,14 @@ public class RobotModel {
 
 	public void setRobots(List<Robot> robots) {
 		this.robots = robots;
+	}
+
+	public int getRobotCount() {
+		return robotCount;
+	}
+
+	public void setRobotCount(int robotCount) {
+		this.robotCount = robotCount;
 	}
    
 }

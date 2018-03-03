@@ -1,0 +1,502 @@
+body{
+	background-color: hsl(0, 0%, 15%);
+	font-family: 'Roboto', sans-serif;
+	color: hsl(0, 0%, 90%);
+	
+	margin: 10px;
+	padding: 5px;
+	
+	min-width: 600px;
+}
+	a {
+		text-decoration: none;
+		color: hsl(0, 0%, 90%);
+	}
+
+
+#header{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: -40px;
+	
+	width: 100%;
+	min-width: 900px;
+}
+
+	
+	#logo{
+		color: hsl(250, 100%, 30%);
+		font-size: 50px;
+		font-weight: 900;
+		letter-spacing: 6px;
+		
+		position: relative;
+		left: 50%;
+		margin-left: -150px;
+		top: 10px;
+
+		text-align: center;
+		
+		width: 325px;
+	}
+	
+		#logoImg{		
+			float: left;	
+			position: relative;
+			top: -15px;
+			
+			height: 80px;
+			width: auto;
+		}
+	
+	
+	#login{
+		border-style: solid;
+		border-width: 2px;
+		border-color: hsl(0, 0%, 15%);
+		font-size: 20px;
+				
+		float: right;
+		margin-top: -100px;
+		padding: 5px;
+
+		width: 300px;
+		height: 90px;		
+	}
+	
+		#loginTextNames{
+			float: left;
+			margin-top: 13px;
+			width: 100px;
+		}
+		
+			.loginTextName{
+				float: right;
+			}
+	
+		#loginTextFields{
+			float: left;
+		
+		}
+		
+			.loginText{
+				margin-top: 8px;
+				
+				width: 190px;
+			}
+		
+				.loginTextField{
+					float: right;
+					margin-right: 4px;
+					
+					width: 75px;
+				}
+		
+		#logButtons{
+			float: left;
+		}
+		
+			.logButton{
+				color: hsl(0, 0%, 90%);	
+				
+				margin-top: 8px;
+				text-align: center;
+				
+				width: 80px;
+			}
+			
+				#loginButton{
+					background-color: hsl(250, 50%, 30%);
+				}
+				#registerButton{
+					background-color: hsl(0, 0%, 30%);
+				}
+				#logoutButton{
+					background-color: hsl(360, 50%, 30%);
+				}
+	
+	
+	#mainNav{
+		background-color: hsl(0, 0%, 30%);
+				
+		clear: both;
+		text-align: center;
+		margin-bottom: 5px;
+
+		width: 100%;		
+		min-width: 760px;
+		height: 50px;
+	}
+	
+		#mainMenu{
+			list-style-type: none;
+			
+			padding: 0;
+			margin: 0;
+			line-height: 50px;
+			display: inline-block;
+		}
+			#mainMenu > li{
+				border-right: 1px dashed hsl(0, 0%, 15%);
+				font-size: 20px;
+				
+				float: left;
+				
+				width: 150px;
+				height: 50px;
+			}
+			#mainMenu > li:first-child{
+				border-left: 1px dashed hsl(0, 0%, 15%);
+			}
+			#mainMenu > li:hover{
+				cursor: pointer;
+			}
+			#mainMenu > li:nth-child(1):hover, 
+			#mainMenu > li:nth-child(3):hover, 
+			#mainMenu > li:nth-child(5):hover{
+				background-color: hsl(250, 100%, 30%);
+			}
+			#mainMenu > li:nth-child(2):hover, 
+			#mainMenu > li:nth-child(4):hover{
+				background-color: hsl(360, 100%, 30%);
+			}
+			#mainMenu > li:hover > .subMenu{
+				display: block;
+			}
+				.subMenu{
+					background-color: hsl(0, 0%, 15%);
+					list-style-type: none;
+					display: none;
+					
+					padding: 0;
+					margin: 0;
+				}
+				.subMenu li{
+					z-index: 100;
+				}
+				.subMenu > li{
+					display: block;
+					position: relative;
+					z-index: 100;
+				}
+				#mainMenu > li:nth-child(1) > .subMenu > li:hover, 
+				#mainMenu > li:nth-child(3) > .subMenu > li:hover, 
+				#mainMenu > li:nth-child(5) > .subMenu > li:hover{
+					background-color: hsl(250, 100%, 30%);				
+				}
+				#mainMenu > li:nth-child(2) > .subMenu > li:hover,
+				#mainMenu > li:nth-child(4) > .subMenu > li:hover{
+					background-color: hsl(360, 100%, 30%);					
+				}
+			#mainMenu a{
+				display: block;
+			}
+
+				
+		.sticky{
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 100;
+		}
+	
+	
+	
+#container{
+	margin-left: auto;
+	margin-right: auto;
+	
+	width: 960px;
+}
+	
+	#leftSide{
+		float: left;
+		
+		width: 150px;
+	}
+	
+		#sideNavList{
+			background-color: hsl(250, 50%, 30%);
+			font-size: 21px;
+			list-style: none;
+			
+			padding: 5px;
+			margin: 0 3px 3px 0;
+			
+			min-height: 500px;				
+		}
+			.sideNavSubList{
+				font-size: 18px;
+				list-style: none;
+				cursor: pointer;
+				
+				margin-left: -40px;
+			}
+			.sideNavSubList > li:before{
+				content: "\2023   ";
+			}
+				.sideNavSubSubList {
+					font-size: 14px;
+					list-style: none;
+					margin-left: -30px;
+					font-style: italic;
+					font-weight: 400;
+				}
+				.sideNavSubSubList > li:before{
+					content: "\2023  ";
+				}
+		#ad1{
+			background-color: white;
+			
+			margin-right: 3px;
+						
+			max-height: 800px;				
+		}		
+		
+		
+	#main{
+		background-color: hsl(0, 0%, 75%);
+		color: hsl(0, 0%, 15%);
+		
+		float: left;
+		padding: 10px;
+		overflow: auto;
+		
+		width: 580px;
+		height: 1293px;
+	}
+/*news*/
+		.sectionArticle{
+			border-top: 2px solid hsl(0, 0%, 15%);
+			
+			padding: 10px 5px;
+			
+			height: 150px;
+		}
+		.sectionArticle:first-child{
+			border-top: none;
+		}
+			.sectionArticleTitle{
+				font-size: 32px;
+				font-weight: 400;
+				padding: 0;
+				margin: 0;
+				display: inline-block;
+			}
+			.sectionArticleTitle a {
+				color: hsl(0, 0%, 15%);
+			}
+				.sectionArticleCategory{
+					background-color: hsl(250, 50%, 30%);
+					font-size: 12px;
+					color: hsl(0, 0%, 90%);
+					font-style: italic;
+					float: left;
+					cursor: pointer;
+					
+					display: inline-block;
+					padding: 1px 5px;;
+				}
+				.sectionArticleDate{
+					background-color: hsl(360, 50%, 30%);
+					font-size: 12px;
+					color: hsl(0, 0%, 90%);
+					font-style: italic;
+					float: right;
+					
+					padding: 1px 5px;;
+				}				
+			.sectionArticleContent{
+				font-size: 16px;
+				text-align: justify;
+			}
+			.sectionArticleImg{
+				float: right;
+				
+				padding: 5px 5px;
+				z-index: 50;
+				
+				height: 120px;
+				width: auto;
+			}
+/*shop*/
+		.shopItem{
+			border-bottom: 2px solid hsl(0, 0%, 15%);
+			
+			padding: 5px 5px;
+			
+			height: 150px;			
+		}
+			.shopItemIMGDiv{
+				border-right: 2px dotted hsl(0, 0%, 15%);				
+				
+				float: left;
+				margin: 1px;
+
+				padding: 4px;
+				
+				width: 138px;
+			}
+				.shopItemIMG{
+					padding: 0 10px;
+					
+					height: 120px;
+					width: auto;
+				}
+				.shopItemIMGCaption{
+					text-align: center;
+				}
+			.shopItemText{
+				border-right: 2px dotted hsl(0, 0%, 15%);
+				font-size: 13px;
+				
+				text-align: justify;				
+				float: left;
+				margin: 1px;
+				padding: 4px;
+				
+				width: 268px;
+				height: 95%;	
+			}
+				.shopItemTitle{
+					font-size: 15px;				
+					text-decoration: underline;
+					
+					margin: 2px 0;
+				}
+			.shopItemPricing{
+				text-align: center;
+				line-height: 28px;
+				float: left;
+				margin: 1px;
+				padding: 4px;
+				
+				width: 130px;			
+			}
+				.shopItemPriceSale{
+					text-decoration: line-through;
+				}
+				.shopItemPrice{
+					font-size: 20px;
+					font-weight: 900;			
+				}
+				.shopItemStackIs{
+					color: green;
+					font-style: italic;
+				}
+				.shopItemStackIsNot{
+					color: red;
+					font-style: italic;
+					font-weight: 900;
+				}				
+				.shopItemButton{
+					font-size: 12px;
+					font-weight: 900;
+					background-color: hsl(360, 50%, 30%);
+					border: 2px outset hsl(0, 0%, 90%);
+					color: hsl(0, 0%, 90%);
+				}
+				
+	#rightSide{	
+		float: left;	
+		
+		width: 200px;
+		height: 1293px;
+	}
+	
+		#basket{
+			background-color: hsl(360, 50%, 30%);
+			
+			text-align: justify;
+			margin: 0 0 3px 3px;
+			
+			height: 500px;				
+		}
+			#basketTitle{
+				font-size: 30px;
+				
+				padding: 5px 0;
+				text-align: center;
+				text-decoration: underline;
+			}
+			#basketContent{
+				overflow: auto;
+				
+				max-height: 320px;
+			}
+				.basketItem{
+					border-bottom: 1px dashed white;
+					
+					padding: 10px 5px;
+					
+					min-height: 30px;
+				}
+					.basketItemName{
+						float: left;
+						width: 60px;
+					}
+					.basketItemPrice{
+						float: left;
+						text-align: right;
+						width: 120px;
+					}
+					.basketItemCount{
+						float: left;
+						width: 60px;
+					}
+					.basketItemPriceTotal{
+						float: left;
+						text-align: right;
+						margin-bottom: 10px;
+						width: 120px;
+					}
+			#basketButton{
+				font-size: 20px;
+				font-weight: 900;
+				background-color: hsl(250, 50%, 30%);
+				border: 4px outset hsl(0, 0%, 90%);
+				color: hsl(0, 0%, 90%);
+				
+				position: relative;
+				left: 50%;
+				margin-left: -54px;
+				margin-top: 10px;
+				
+				height: 40px;
+				width: 100px;
+			}
+			
+		#sales{
+			background-color: hsl(360, 50%, 30%);
+			
+			margin: 0 0 3px 3px;
+						
+			height: 500px;				
+		}
+		
+		#ad2{
+			background-color: white;
+			
+			margin-left: 3px;
+
+			height: 802px;
+		}	
+	
+	
+	
+#footer{
+	background-color: hsl(0, 0%, 30%);
+	clear: both;
+	margin-top: 10px;
+	
+	width: 100%;
+	height: 50px;
+}
+	
+	#footerMiddle{
+		position: relative;
+		left: 50%;
+		margin-left: -150px;
+		
+		width: 300px;
+	}

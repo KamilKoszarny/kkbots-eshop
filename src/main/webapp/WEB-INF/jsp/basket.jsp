@@ -34,36 +34,19 @@
 			<th>Qty</th>
 			<th>Sum</th>
 		</tr>
-		<% 
-		sumPrice = 0;
-		Map<RobotModel, Integer> robotModelMap = new HashMap<>();
-		for(Robot robot: basket){
-			RobotModel robotModel = robot.getRobotModel();
-			robotCount = 0;
-			for(Robot nextRobot: basket)
-				if(nextRobot.getRobotModel().getModel().equals(robotModel.getModel())) 
-					robotCount++;
-			if(!robotModelMap.keySet().contains(robotModel))
-				robotModelMap.put(robotModel, robotCount);
-		}
-		for(Map.Entry<RobotModel, Integer> entry : robotModelMap.entrySet()) {
-			RobotModel robotModel = entry.getKey();
-		    robotCount = entry.getValue();
-		    sumPrice += robotCount * robotModel.getPrice();
-		%>
+		<c:forEach items="${basketbymodels}" var="robotmodel">
 			<tr>
-				<td onclick="document.location = 'shop/robots/<%= robotModel.getModel() %>';" style="color: #382b91; cursor: pointer;"><%= robotModel.getModel() %></td>
-				<td><%= robotModel.getPrice() %></td>
-				<td><%= robotCount %></td>
-				<td><%= robotCount * robotModel.getPrice()%></td>
+				<td onclick="document.location = 'shop/robots/${robotmodel.model}';" style="color: #382b91; cursor: pointer;">${robotmodel.model}</td>
+				<td>$${robotmodel.price}</td>
+				<td>${robotmodel.robotCount}</td>
+				<td>$${robotmodel.price * robotmodel.robotCount}</td>
 			</tr>
-		<% } %>
-		
+		</c:forEach>
 		<tr>
 			<td></td>
 			<td></td>
 			<td></td>
-			<td><%= sumPrice %></td>
+			<td>$${sumprice}</td>
 		</tr>
 	</table >
 	
