@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
 	<meta charset="utf-8"/>
-	<title>title</title>
+	<title>${param.title}</title>
 	<meta name="description" content="Play RTS on your floor with KKBots" />
 	<meta name="keywords" content="robots, toys, RTS, games, shop" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />

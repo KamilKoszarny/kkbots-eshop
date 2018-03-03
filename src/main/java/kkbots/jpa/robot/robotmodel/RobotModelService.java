@@ -3,15 +3,21 @@ package kkbots.jpa.robot.robotmodel;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kkbots.jpa.order.Order;
 import kkbots.jpa.robot.Robot;
 import kkbots.jpa.robot.RobotRepository;
 import kkbots.jpa.robot.RobotService;
 import kkbots.jpa.robot.RobotStatus;
+import kkbots.jpa.user.User;
 
 @Service
 public class RobotModelService {
@@ -79,6 +85,72 @@ public class RobotModelService {
 			model.setWhenReady(whenReady);
 			updateRobotModel(model);
 		}
+	}
+	
+	public void calcBasket(HttpSession session) {
+		double sumPrice = 0; 
+		int robotCount = 0;
+		@SuppressWarnings("unchecked")
+		List<Robot> basket = (List<Robot>)session.getAttribute("basket"); 
+			if(basket == null) basket = new ArrayList<Robot>();
+		
+			sumPrice = 0;
+			Map<RobotModel, Integer> robotModelMap = new HashMap<>();
+			for(Robot robot: basket){
+				RobotModel robotModel = robot.getRobotModel();
+				robotCount = 0;
+				for(Robot nextRobot: basket)
+					if(nextRobot.getRobotModel().getModel().equals(robotModel.getModel())) 
+						robotCount++;
+				if(!robotModelMap.keySet().contains(robotModel))
+					robotModelMap.put(robotModel, robotCount);
+			}
+			
+			List<RobotModel> basketByModels = new ArrayList<>();
+			for(Map.Entry<RobotModel, Integer> entry : robotModelMap.entrySet()) {
+				RobotModel robotModel = entry.getKey();
+			    robotCount = entry.getValue();
+			    sumPrice += robotCount * robotModel.getPrice();
+			    robotModel.setRobotCount(robotCount);
+			    basketByModels.add(robotModel);
+			}
+			
+			session.setAttribute("basketbymodels", basketByModels);
+			session.setAttribute("sumPrice", sumPrice);
+	}
+	
+	public List<Order> calcOrders(HttpSession session, List<Order> orders) {
+		orders.forEach(order->{
+			double sumPrice = 0; 
+			int robotCount = 0;
+			List<Robot> robots = order.getRobots(); 
+				if(robots == null) robots = new ArrayList<Robot>();
+			
+				sumPrice = 0;
+				Map<RobotModel, Integer> robotModelMap = new HashMap<>();
+				for(Robot robot: robots){
+					RobotModel robotModel = robot.getRobotModel();
+					robotCount = 0;
+					for(Robot nextRobot: robots)
+						if(nextRobot.getRobotModel().getModel().equals(robotModel.getModel())) 
+							robotCount++;
+					if(!robotModelMap.keySet().contains(robotModel))
+						robotModelMap.put(robotModel, robotCount);
+				}
+				
+				List<RobotModel> orderByModels = new ArrayList<>();
+				for(Map.Entry<RobotModel, Integer> entry : robotModelMap.entrySet()) {
+					RobotModel robotModel = entry.getKey();
+				    robotCount = entry.getValue();
+				    sumPrice += robotCount * robotModel.getPrice();
+				    robotModel.setRobotCount(robotCount);
+				    orderByModels.add(robotModel);
+				}
+				order.setOrderByModels(orderByModels);
+				order.setOrderSumPrice(sumPrice);
+		});
+		
+		return orders;
 	}
 	
 

@@ -1,77 +1,62 @@
-<%@page import="kkbots.jpa.user.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	User user = (User)session.getAttribute("user");
-	if(user == null)
-		response.sendRedirect("welcome");
-%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Shop</title>
-</head>
-<body>
-	<h1>Shop</h1>
-	
-	<h3>Offered models</h3>
-	
-	<div>
-      <table border="1">
-        <tr>
-          <th>Model</th>
-	      <th>Price</th>
-	      <th>Stock</th>
-	      <th>In production</th>
-	      <th>Available</th>
-	      <th>Order</th>
-	      <th>In basket</th>
-        </tr>
-        <c:forEach items="${robotmodels}" var ="robotmodel">
-	        <tr>
-	          	<td onclick="document.location = 'shop/robots/${robotmodel.model}';" style="color: #382b91; cursor: pointer;">${robotmodel.model}</td>
-	          	<td>${robotmodel.price}</td>
-	          	<td>${robotmodel.stock}</td>
-	          	<td>${robotmodel.inProduction}</td>
-	          	
-	          	
-	          		<c:choose>
-		          		<c:when test="${robotmodel.stock > 0}">
-		          			<td></td>
-		          			<td>
-				          		<form method="post" action="addtobasket">
-				          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
-				          			<input type="submit" value="Add to basket" />
-				          		</form>
-			          		</td>
-		          		</c:when>
-		          		<c:when test="${robotmodel.inProduction > 0}">
-		          			<td>${robotmodel.whenReady}</td>
-		          			<td>
-				          		<form method="post" action="addtobasket">
-				          			<input type="hidden" name="robotmodel" value="${robotmodel}" />
-				          			<input type="submit" value="Reserve in basket" />
-				          		</form>
-			          		</td>
-		          		</c:when>
-		          		<c:otherwise>
-		          			<td></td>
-		          			<td>
-			          			No robots available at this moment;
-			          		</td>
-		          		</c:otherwise>
-		          		
-	          		</c:choose>
-	          	
-	        </tr>
-        </c:forEach>
-      </table>
-    </div>
-    
-    <h4><a href="<%= request.getContextPath()%>/customerpanel">My panel</a></h4>
-	<h4><a href="<%= request.getContextPath()%>/basket">My basket</a></h4>
-	
-</body>
-</html>
+<jsp:include page="../tags/header.jsp" >
+	<jsp:param value="Shop" name="title"/>
+</jsp:include>
+
+<t:genericpage>
+    <jsp:attribute name="main">
+    	<c:forEach items="${robotmodels}" var ="robotmodel">
+	    	<section class="shopItem">
+				<div class="shopItemIMGDiv">
+					<img class="shopItemIMG" src="/resources/img/${robotmodel.model}.jpg" />
+					<div class="shopItemIMGCaption">${robotmodel.model}</div>
+				</div>
+				<div class="shopItemText">
+					<h4 class="shopItemTitle">${robotmodel.model}</h4>
+					<div class="shopItemDescription">${robotmodel.description}</div>
+				</div>
+				<div class="shopItemPricing">
+					<div class="shopItemPriceSale">$${robotmodel.price + 100}</div>
+					<div class="shopItemPrice">$${robotmodel.price}</div>
+						<c:choose>
+		          			<c:when test="${robotmodel.stock > 0}">
+		          				<div class="shopItemStackIs">Available:</div>
+		          				<b>${robotmodel.stock}</b> in stock
+		          			</c:when>
+		          			<c:when test="${robotmodel.inProduction > 0}">
+		          				<div class="shopItemStackIsInProduction">Available:</div>
+		          				<b>${robotmodel.inProduction}</b> in production
+		          			</c:when>
+		          			<c:otherwise>
+		          				<div class="shopItemStackIsNot">No robots available :(</div>
+		          			</c:otherwise>
+		          		</c:choose>
+					<form method="post" action="addtobasket">
+						<input type="hidden" name="robotmodel" value="${robotmodel}" />
+						<c:choose>
+							<c:when test="${user == null && robotmodel.stock > 0}">
+								Log in to order
+							</c:when>
+							<c:when test="${user == null && robotmodel.inProduction > 0}">
+								Log in to reserve
+							</c:when>
+		          			<c:when test="${robotmodel.stock > 0}">
+								<input class="shopItemB" type="submit" value="Add to basket"/>
+							</c:when>
+		          			<c:when test="${robotmodel.inProduction > 0}">
+		          				<input class="shopItemB" type="submit" value="Reserve in basket"/>
+		          			</c:when>
+		          			<c:otherwise>
+		          			</c:otherwise>
+		          		</c:choose>
+					</form>
+				</div>
+				<div style="clear: both;"> </div>
+			</section>
+    	</c:forEach>
+    	<div style="clear: both;"> </div>		
+    </jsp:attribute>
+</t:genericpage>

@@ -1,6 +1,5 @@
 package kkbots.jpa.user;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -97,6 +95,28 @@ public class UserController {
 				return new ModelAndView(new RedirectView("adminpanel"));
 			else
 				return new ModelAndView("customerpanel");
+	}
+	
+	
+	@RequestMapping("/register")
+	public String register(){
+		return "register";
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/register")
+	public ModelAndView registerPost(
+			@RequestParam(name="login") String login, 
+			@RequestParam(name="password") String password, 
+			@RequestParam(name="firstname") String firstName, 
+			@RequestParam(name="lastname") String lastName, 
+			@RequestParam(name="email") String email,
+			@RequestParam(name="phone", required=false) String phone,
+			@RequestParam(name="address", required=false) String address){
+		
+		User user = new User(0l, "customer", login, password, firstName, lastName, email, phone, address);
+		userService.addUser(user);
+		
+		return new ModelAndView(new RedirectView("index"));
 	}
 	
 	

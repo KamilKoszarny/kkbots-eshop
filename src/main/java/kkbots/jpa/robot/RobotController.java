@@ -2,7 +2,9 @@ package kkbots.jpa.robot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -84,8 +86,12 @@ public class RobotController {
 		
 		robotModelService.updateStockAndInProduction();
 		
+		robotModelService.calcBasket(session);
+		
 		return new ModelAndView(new RedirectView("shop"));
 	}
+	
+
 	
 	@RequestMapping(method=RequestMethod.GET, value="/addrobot")
 	public String addRobot(Model model) {

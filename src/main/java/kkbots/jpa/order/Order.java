@@ -14,8 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import kkbots.jpa.robot.Robot;
+import kkbots.jpa.robot.robotmodel.RobotModel;
 import kkbots.jpa.user.User;
 
 @Entity
@@ -39,6 +41,11 @@ public class Order {
 	
 	@OneToMany(mappedBy="order", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<Robot> robots;
+	
+	@Transient
+	private double orderSumPrice;
+	@Transient
+	private List<RobotModel> orderByModels;
 	
 
 	public Order() {
@@ -116,5 +123,21 @@ public class Order {
 
 	public void setStatusDate(Timestamp statusDate) {
 		this.statusDate = statusDate;
+	}
+
+	public double getOrderSumPrice() {
+		return orderSumPrice;
+	}
+
+	public void setOrderSumPrice(double orderSumPrice) {
+		this.orderSumPrice = orderSumPrice;
+	}
+
+	public List<RobotModel> getOrderByModels() {
+		return orderByModels;
+	}
+
+	public void setOrderByModels(List<RobotModel> orderByModels) {
+		this.orderByModels = orderByModels;
 	}
 }

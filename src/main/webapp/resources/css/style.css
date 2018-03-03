@@ -265,7 +265,31 @@ body{
 		width: 580px;
 		height: 1293px;
 	}
-/*news*/
+/*register//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+		#registerWrapper{
+			width: 300px;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+		}
+		
+			.registerCaption{
+				width: 100px;
+				float: left;
+				text-align: left;
+				height: 25px;
+				margin-top: 5px;
+			}
+			
+			.registerTextField{
+				width: 150px;
+				float: right;
+				height: 25px;
+				margin-top: 5px;
+			}
+
+
+/*news/////////////////////////////////////////////////////////////////////////////////////////////////*/
 		.sectionArticle{
 			border-top: 2px solid hsl(0, 0%, 15%);
 			
@@ -319,7 +343,7 @@ body{
 				height: 120px;
 				width: auto;
 			}
-/*shop*/
+/*shop//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 		.shopItem{
 			border-bottom: 2px solid hsl(0, 0%, 15%);
 			
@@ -355,7 +379,7 @@ body{
 				margin: 1px;
 				padding: 4px;
 				
-				width: 268px;
+				width: 250px;
 				height: 95%;	
 			}
 				.shopItemTitle{
@@ -384,6 +408,11 @@ body{
 					color: green;
 					font-style: italic;
 				}
+				.shopItemStackIsInProduction{
+					color: orange;
+					font-style: italic;
+					font-weight: 900;
+				}	
 				.shopItemStackIsNot{
 					color: red;
 					font-style: italic;
@@ -396,7 +425,17 @@ body{
 					border: 2px outset hsl(0, 0%, 90%);
 					color: hsl(0, 0%, 90%);
 				}
-				
+/*orders//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+	
+	.order{
+		border-bottom: 5px double black;
+		padding-bottom: 100px;
+	}
+
+
+
+
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////*/				
 	#rightSide{	
 		float: left;	
 		
@@ -429,7 +468,7 @@ body{
 					
 					padding: 10px 5px;
 					
-					min-height: 30px;
+					height: 50px;
 				}
 					.basketItemName{
 						float: left;
@@ -450,7 +489,7 @@ body{
 						margin-bottom: 10px;
 						width: 120px;
 					}
-			#basketButton{
+			.basketButton{
 				font-size: 20px;
 				font-weight: 900;
 				background-color: hsl(250, 50%, 30%);
@@ -459,11 +498,11 @@ body{
 				
 				position: relative;
 				left: 50%;
-				margin-left: -54px;
+				margin-left: -82px;
 				margin-top: 10px;
 				
 				height: 40px;
-				width: 100px;
+				width: 160px;
 			}
 			
 		#sales{

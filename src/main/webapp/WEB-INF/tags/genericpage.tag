@@ -1,6 +1,5 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
-<%@attribute name="header" fragment="true" %>
-<%@attribute name="footer" fragment="true" %>
+<%@attribute name="main" fragment="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 	<body onload="activeMenuItem(0, 0, '');">
@@ -11,31 +10,37 @@
 			</h1>
       		<div style="clear:both;"> </div>
 			<div id="login">
-				<div id="loginTextFields">
-					<c:if test="${user == null}">
+				<c:if test="${user == null}">
+					<div id="loginTextFields">
 						<form method="post" action="uservalidation">
-						<div class="loginText">Login:<input class="loginTextField" type="text" name="login" title="Login"/></div>
-						<div style="clear:both;"> </div>
-						<div class="loginText">Password:<input class="loginTextField" type="password" name="password" title="Password"/></div>
-					</c:if>
-					<c:if test="${user != null}">
-						<form method="get" action="logout">
-						<div class="loginText">Logged as: <br/>${user.name} ${user.surname}</div>
-					</c:if>
-				</div>
-				<div id="logButtons">
-					<c:if test="${user == null}">
+							<div class="loginText">Login:<input class="loginTextField" type="text" name="login" title="Login"/></div>
+							<div style="clear:both;"> </div>
+							<div class="loginText">Password:<input class="loginTextField" type="password" name="password" title="Password"/></div>
+						
+					</div>
+					<div id="logButtons">
 						<input class="logButton" id="loginButton" type="submit" value="Log in"/>
 						<div style="clear:both;"> </div>
-						<input class="logButton" id="registerButton" type="submit" value="Register"/>
-						<div style="clear:both;"> </div>
-					</c:if>
-					<c:if test="${user != null}">
-						<input class="logButton" id="logoutButton" type="submit" value="Log out"/>
-					</c:if>
-					</form>
-				</div>
-				<div style="clear:both;"> </div>
+						</form>
+						<form method="get" action="register">
+							<input class="logButton" id="registerButton" type="submit" value="Register"/>
+						</form>
+						<div style="clear:both;"> </div>	
+					</div>
+					<div style="clear:both;"> </div>
+				</c:if>
+				<c:if test="${user != null}">
+					<div id="loginTextFields">
+						<form method="get" action="logout">
+							<div class="loginText">Logged as: <br/>${user.name} ${user.surname}</div>
+						</form>
+					</div>
+					<div id="logButtons">
+						<form method="post" action="logout">
+							<input class="logButton" id="logoutButton" type="submit" value="Log out"/>
+						</form>
+					</div>
+				</c:if>
 			</div>
       
       
@@ -51,10 +56,10 @@
 							<li onclick="activeMenuItem(0, 5, 'Free topics');">Free topics</li>
 						</ul>
 					</li>
-					<li><a href="sklep.html">Shop</a>
+					<li><a href="shop">Shop</a>
 						<ul class="subMenu">
-							<li><a href="sklep.html">All</a></li>
-							<li><a href = "#">Robots</a></li>
+							<li><a href="shop">All</a></li>
+							<li><a href = "shop">Robots</a></li>
 						</ul>				
 					</li>
 					<li>My panel
@@ -99,10 +104,10 @@
 							</li>
 						</ul>
 					 </li>
-					 <li><a href="sklep.html">Shop</a>
+					 <li><a href="shop">Shop</a>
 						<ul class="sideNavSubList">
-							<li><a href="sklep.html">All</a></li>
-							<li><a href = "#">Robots</a></li>
+							<li><a href="shop">All</a></li>
+							<li><a href = "shop">Robots</a></li>
 						</ul>
 					 </li>
 					 <li>My panel
@@ -125,46 +130,9 @@
 				</div>
 			</div>
 			
-			<main id="main">
-				<section class="sectionArticle">
-					<a onclick="activeMenuItem(0, 1, 'New robots');" class="sectionArticleCategory" href="#">New robots</a>
-					<div class="sectionArticleDate">28.12.2017 09:03</div>
-					<br/>
-					<h3 class="sectionArticleTitle"><a href="article4.html">HS14 construction ready</a></h3>
-					<img class="sectionArticleImg" src="/resources/img/article1img.jpg">
-					<div class="sectionArticleContent">
-						Lorem ipsum dolor sit amet, consecteturnisi ut blanipit. Suspendisse tempor imperdiet ex non suscipit. Donec eget gravida neque. Sed placerat semper mi non blandit. Nullam quis diam nec est pulvinar cursus. 
-					</div>
-				</section>
-				<section class="sectionArticle">
-					<a onclick="activeMenuItem(0, 4, 'Upgrades');" class="sectionArticleCategory"  href="#">Upgrades</a>
-					<div class="sectionArticleDate">08.06.2017 21:35</div>
-					<br/>
-					<h3 class="sectionArticleTitle"><a href="article3.html">New soft for RK08</a></h3>
-					<img class="sectionArticleImg" src="/resources/img/article2img.jpg">
-					<div class="sectionArticleContent">
-						Lorem ipsum dolor sit amet, consecteturnisi ut blanipit. Suspendisse tempor imperdiet ex non suscipit. Donec eget gravida neque. Sed placerat semper mi non blandit. Nullam quis diam nec est pulvinar cursus. 
-					</div>
-				</section>
-				<section class="sectionArticle">
-					<a onclick="activeMenuItem(0, 2, 'New buildings');" class="sectionArticleCategory"  href="#">New buildings</a>
-					<div class="sectionArticleDate">08.06.2017 21:35</div>
-					<br/>
-					<h3 class="sectionArticleTitle"><a href="article2.html">Building BS22 concept</a></h3>
-					<div class="sectionArticleContent">
-						Lorem ipsum dolor sit amet, consecteturnisi ut blanipit. Suspendisse tempor imperdiet ex non suscipit. Donec eget gravida neque. Sed placerat semper mi non blandit. Nullam quis diam nec est pulvinar cursus. 
-					</div>
-				</section>
-				<section class="sectionArticle">
-					<a onclick="activeMenuItem(0, 5, 'Free topics');" class="sectionArticleCategory"  href="#">Free topics</a>
-					<div class="sectionArticleDate">08.06.2017 21:35</div>
-					<br/>
-					<h3 class="sectionArticleTitle"><a href="article1.html">Welcome</a></h3>
-					<div class="sectionArticleContent">
-						Lorem ipsum dolor sit amet, consecteturnisi ut blanipit. Suspendisse tempor imperdiet ex non suscipit. Donec eget gravida neque. Sed placerat semper mi non blandit. Nullam quis diam nec est pulvinar cursus. 
-					</div>
-				</section>		
-			</main>
+			<div id="main">
+				<jsp:invoke fragment="main"/>
+			</div>
 			
 			<aside id="rightSide">
 				<div id="basket">
@@ -172,7 +140,7 @@
 					<div id="basketContent">
 						<c:forEach items="${basketbymodels}" var="robotmodel">
 							<div class="basketItem">
-								<div class="basketItemName">${robotmodel.model}</div>
+								<div class="basketItemName"><b>${robotmodel.model}</b></div>
 								<div class="basketItemPrice">$${robotmodel.price} each</div>
 								<div style="clear:both;"> </div>
 								<div class="basketItemCount">Qty:${robotmodel.robotCount}</div>
@@ -182,9 +150,11 @@
 					</div>	
 					<div class="basketItem">
 						<div class="basketItemName"><b>TOTAL</b></div>
-						<div class="basketItemPrice"><b>$${sumprice}</b></div>
+						<div class="basketItemPriceTotal"><b>$${sumPrice}</b></div>
 					</div>
-					<input id="basketButton" type="submit" value="Order"/>
+					<form method="get" action="order">
+						<input class="basketButton" type="submit" value="Go to order"/>
+					</form>
 				</div>
 				<div id="ad2">
 					ad2

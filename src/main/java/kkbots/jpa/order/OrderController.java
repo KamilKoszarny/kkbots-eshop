@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import kkbots.jpa.robot.Robot;
 import kkbots.jpa.robot.RobotService;
 import kkbots.jpa.robot.robotmodel.RobotModel;
+import kkbots.jpa.robot.robotmodel.RobotModelService;
 import kkbots.jpa.user.User;
 
 @Controller
@@ -31,6 +32,8 @@ public class OrderController {
 	OrderService orderService;
 	@Autowired
 	RobotService robotService;
+	@Autowired
+	RobotModelService robotModelService;
 	
 	@RequestMapping("/orders")
 	public String getAllOrders(HttpSession session, Model model) {
@@ -47,6 +50,7 @@ public class OrderController {
 			List<Robot> robots = robotService.getRobotsByOrder(order);
 			order.setRobots(robots);
 		});
+		orders = robotModelService.calcOrders(session, orders);
 		orderService.updateOrdersStatusByRobotsAvailability(orders);
 		user.setOrders(orders);
 		session.setAttribute("user", user);
@@ -145,8 +149,13 @@ public class OrderController {
 		orderService.deleteOrder(id);
 	}
 	
+	@RequestMapping(value="/order")
+	public String order(){
+		return "order";
+	}
+	
 	@RequestMapping(method=RequestMethod.POST, value="/order")
-	public ModelAndView placeOrder(HttpSession session) {
+	public ModelAndView placeOrder(HttpSession session, HttpServletRequest request) {
 		@SuppressWarnings("unchecked")
 		List<Robot> basket = (List<Robot>)session.getAttribute("basket");
 		User customer = (User)session.getAttribute("user");
@@ -161,9 +170,14 @@ public class OrderController {
 		
 		orderService.addOrder(order);
 		
-		session.setAttribute("basket", new ArrayList<Robot>());
+		session.setAttribute("basket", null);
+		session.setAttribute("basketbymodels", null);
+		session.setAttribute("sumPrice", null);
 		
-		return new ModelAndView(new RedirectView("customerpanel"));
+		session.setAttribute("basket", new ArrayList<Robot>());
+		StringBuilder pathSB = new StringBuilder(request.getHeader("referer"));
+		String path = pathSB.substring(pathSB.lastIndexOf("/"));
+		return new ModelAndView(new RedirectView(path));
 	}
 
 }
