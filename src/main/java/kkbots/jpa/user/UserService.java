@@ -20,8 +20,19 @@ public class UserService {
 	}
 	
 	public User validateUser(String login, String password) {
-		
 		return userRepository.findUserByLoginAndPassword(login, password);
+	}
+	
+	public boolean checkLoginAvailable(String login) {
+		if(userRepository.findUserByLogin(login) != null)
+			return false;
+		return true;
+	}
+	
+	public boolean checkEmailAvailable(String email) {
+		if(userRepository.findUserByEmail(email) != null)
+			return false;
+		return true;
 	}
 	
 	public User getUser(Long id) {

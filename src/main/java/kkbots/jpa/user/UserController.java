@@ -8,7 +8,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,27 +90,44 @@ public class UserController {
 	}
 	
 	@RequestMapping("/register")
-	public String register(User user){
+	public String register(){
 		return "register";
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/register")
 	public ModelAndView registerPost(
-//			@RequestParam(name="login") String login, 
-//			@RequestParam(name="password") String password, 
-//			@RequestParam(name="firstname") String firstName, 
-//			@RequestParam(name="lastname") String lastName, 
-//			@RequestParam(name="email") String email,
-//			@RequestParam(name="phone", required=false) String phone,
-//			@RequestParam(name="address", required=false) String address
-			@Valid User user, BindingResult bindingResult
-			
-			){
+			@RequestParam(name="login") String login, 
+			@RequestParam(name="password") String password, 
+			@RequestParam(name="firstname") String firstName, 
+			@RequestParam(name="lastname") String lastName, 
+			@RequestParam(name="email") String email,
+			@RequestParam(name="phone", required=false) String phone,
+			@RequestParam(name="address", required=false) String address,
+			Model model){
 		
-		//User user = new User(0l, "customer", login, password, firstName, lastName, email, phone, address);
+		User user = new User(0l, "customer", login, password, firstName, lastName, email, phone, address);
+		if(!validateRegistrationAndGenerateMessages(user, model)) {
+			model.addAttribute("userInfo", user);
+			return new ModelAndView("/register");
+		};
 		userService.addUser(user);
 		
 		return new ModelAndView(new RedirectView("/registerthanks"));
+	}
+	
+	private boolean validateRegistrationAndGenerateMessages(User user, Model model) {
+		boolean correct = true;
+		String valRegMessage = "";
+		if (!userService.checkLoginAvailable(user.getLogin())) {
+			correct = false;
+			valRegMessage = "Login exists. Choose different one";
+		}
+		if (!userService.checkEmailAvailable(user.getEmail())) {
+			correct = false;
+			valRegMessage = "Email exists. Choose different one";
+		}
+		model.addAttribute("message", valRegMessage);
+		return correct;
 	}
 	
 	@RequestMapping("/registerthanks")
