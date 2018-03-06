@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kkbots.jpa.order.Order;
+import kkbots.jpa.order.OrderRepository;
 import kkbots.jpa.robot.robotmodel.RobotModel;
+import kkbots.jpa.user.User;
 
 @Service
 public class RobotService {
 
 	@Autowired
 	private RobotRepository robotRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 	
 	public List<Robot> getAllRobots() {
 		List<Robot> robots = new ArrayList<>();
@@ -60,6 +64,15 @@ public class RobotService {
 	
 	public List<Robot> getRobotsByOrder(Order order) {
 		return robotRepository.findAllByOrder(order);
+	}
+	
+	public List<Robot> getRobotsByUser(User user) {
+		List<Order> orders = orderRepository.findAllByCustomer(user);
+		List<Robot> robots = new ArrayList<>();
+		orders.forEach(order->{
+			robots.addAll(robotRepository.findAllByOrder(order));
+		});
+		return robots;
 	}
 	
 	public void addRobot(Robot robot) {

@@ -1,3 +1,4 @@
+<%@page import="kkbots.jpa.user.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
@@ -5,13 +6,17 @@
 <jsp:include page="../tags/header.jsp" >
 	<jsp:param value="Orders" name="title"/>
 </jsp:include>
-
 <t:genericpage>
     <jsp:attribute name="main">
-    	<h2>Your orders history: </h2>
+    	<c:if test="${user.role == 'admin'}">
+    		<h1>All orders: </h1>
+    	</c:if>
+    	<c:if test="${user.role == 'customer'}">
+    		<h1>Your orders history: </h1>
+    	</c:if>
     	<c:forEach items="${user.orders}" var="order">
     		<div class="order">
-	    		<h3>Order id ${order.id}</h3>
+	    		<h2>Order id ${order.id}</h2>
 				<c:if test="${user.role == 'admin'}">
 					<h4>Customer id: ${order.customer.id}</h4>
 					<h5>	Full name: ${order.customer.name} ${order.customer.surname}</h5>
@@ -42,7 +47,38 @@
 			    	<div style="clear: both;"> </div>
 			    	<h2>Total: ${order.orderSumPrice}</h2>
 		    	</c:if>
+		    	
+				<c:if test="${order.status == 'READY' && user.role == 'customer'}" >
+					<form method="post" action="pay">
+						<input type="hidden" name="orderid" value="${order.id}" />
+						<input type="submit" value="PAY" class="basketButton" />
+					</form>
+				</c:if>
+				<c:if test="${order.status == 'PAYMENT' && user.role == 'admin'}" >
+					<form method="post" action="confirmpayment">
+						<input type="hidden" name="orderid" value="${order.id}" />
+						<input type="submit" value="CONFIRM PAYMENT" class="basketButton" />
+					</form>
+				</c:if>
+				<c:if test="${order.status == 'TO_SEND' && user.role == 'admin'}" >
+					<form method="post" action="confirmsend">
+						<input type="hidden" name="orderid" value="${order.id}" />
+						<input type="submit" value="SEND" class="basketButton" />
+					</form>
+				</c:if>
+				<c:if test="${order.status == 'SEND' && user.role == 'customer'}" >
+					<form method="post" action="confirmreceived">
+						<input type="hidden" name="orderid" value="${order.id}" />
+						<input type="submit" value="CONFIRM RECEIVED" class="basketButton" />
+					</form>
+				</c:if>
+		    	
+		    	
 	    	</div>
     	</c:forEach>
+    	
+    	<script>
+		    window.onload = activeMenuItem(2, 2, '');
+		</script>	
     </jsp:attribute>
 </t:genericpage>

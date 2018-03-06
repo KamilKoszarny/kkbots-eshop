@@ -30,7 +30,7 @@
 		<h3>Order nr ${order.id}</h3>
 		<c:if test="${user.role == 'admin'}">
 			<h4>Customer id: ${order.customer.id}</h4>
-			<h5>	Full name: ${order.customer.name} ${order.customer.surname}</h5>
+			<h4>	Full name: ${order.customer.name} ${order.customer.surname}</h4>
 		</c:if>
 		<h4>Placed: ${order.date}</h4>
 		<h4>Status: ${order.status}</h4>
@@ -84,25 +84,25 @@
 		<c:if test="${order.status == 'READY' && user.role == 'customer'}" >
 			<form method="post" action="pay">
 				<input type="hidden" name="orderid" value="${order.id}" />
-				<input type="submit" value="PAY" />
+				<input type="submit" value="PAY" class="basketButton" />
 			</form>
 		</c:if>
 		<c:if test="${order.status == 'PAYMENT' && user.role == 'admin'}" >
 			<form method="post" action="confirmpayment">
 				<input type="hidden" name="orderid" value="${order.id}" />
-				<input type="submit" value="CONFIRM PAYMENT" />
+				<input type="submit" value="CONFIRM PAYMENT" class="basketButton" />
 			</form>
 		</c:if>
 		<c:if test="${order.status == 'TO_SEND' && user.role == 'admin'}" >
 			<form method="post" action="confirmsend">
 				<input type="hidden" name="orderid" value="${order.id}" />
-				<input type="submit" value="SEND" />
+				<input type="submit" value="SEND" class="basketButton"/>
 			</form>
 		</c:if>
 		<c:if test="${order.status == 'SEND' && user.role == 'customer'}" >
 			<form method="post" action="confirmreceived">
 				<input type="hidden" name="orderid" value="${order.id}" />
-				<input type="submit" value="CONFIRM RECEIVED" />
+				<input type="submit" value="CONFIRM RECEIVED" class="basketButton" />
 			</form>
 		</c:if>
 		<br/>-----------------------------------------------------------------<br/>

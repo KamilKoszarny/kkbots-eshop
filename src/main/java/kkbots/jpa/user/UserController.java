@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,7 +64,7 @@ public class UserController {
 		User user = userService.validateUser(login, password);
 		if(user == null) {
 			redirectAttributes.addFlashAttribute("message", "No such user. Check login and password.");
-			return new ModelAndView(new RedirectView("index"));
+			return new ModelAndView(new RedirectView("/index"));
 		} else {
 			request.getSession().setAttribute("user", user);
 			if (user.getRole().equals("customer"))
@@ -73,50 +75,45 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping("/adminpanel")
+	@RequestMapping("/panel")
 	public ModelAndView adminPanel(HttpServletRequest httpServletRequest) {
 			User user = (User)httpServletRequest.getSession().getAttribute("user");
 			
 			if (user == null)
-				return new ModelAndView(new RedirectView("welcome"));
+				return new ModelAndView("emptypanel");
 			if (user.getRole().equals("admin"))
 				return new ModelAndView("adminpanel");
-			else
-				return new ModelAndView(new RedirectView("customerpanel"));
-	}
-	
-	@RequestMapping("/customerpanel")
-	public ModelAndView customerPanel(HttpServletRequest httpServletRequest) {
-			User user = (User)httpServletRequest.getSession().getAttribute("user");
-			
-			if (user == null)
-				return new ModelAndView(new RedirectView("welcome"));
-			if (user.getRole().equals("admin"))
-				return new ModelAndView(new RedirectView("adminpanel"));
 			else
 				return new ModelAndView("customerpanel");
 	}
 	
-	
 	@RequestMapping("/register")
-	public String register(){
+	public String register(User user){
 		return "register";
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/register")
 	public ModelAndView registerPost(
-			@RequestParam(name="login") String login, 
-			@RequestParam(name="password") String password, 
-			@RequestParam(name="firstname") String firstName, 
-			@RequestParam(name="lastname") String lastName, 
-			@RequestParam(name="email") String email,
-			@RequestParam(name="phone", required=false) String phone,
-			@RequestParam(name="address", required=false) String address){
+//			@RequestParam(name="login") String login, 
+//			@RequestParam(name="password") String password, 
+//			@RequestParam(name="firstname") String firstName, 
+//			@RequestParam(name="lastname") String lastName, 
+//			@RequestParam(name="email") String email,
+//			@RequestParam(name="phone", required=false) String phone,
+//			@RequestParam(name="address", required=false) String address
+			@Valid User user, BindingResult bindingResult
+			
+			){
 		
-		User user = new User(0l, "customer", login, password, firstName, lastName, email, phone, address);
+		//User user = new User(0l, "customer", login, password, firstName, lastName, email, phone, address);
 		userService.addUser(user);
 		
-		return new ModelAndView(new RedirectView("index"));
+		return new ModelAndView(new RedirectView("/registerthanks"));
+	}
+	
+	@RequestMapping("/registerthanks")
+	public String registerthanks(){
+		return "registerthanks";
 	}
 	
 	
@@ -126,7 +123,7 @@ public class UserController {
 		
 		httpServletRequest.getSession().setAttribute("user", null);
 		
-		return new ModelAndView(new RedirectView("index"));
+		return new ModelAndView(new RedirectView("/index"));
 	}
 	
 	private void cleanBasket(HttpServletRequest httpServletRequest) {

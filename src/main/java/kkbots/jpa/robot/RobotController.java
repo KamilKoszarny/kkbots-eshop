@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import kkbots.jpa.robot.robotmodel.RobotModel;
 import kkbots.jpa.robot.robotmodel.RobotModelService;
+import kkbots.jpa.user.User;
 
 @Controller
 public class RobotController {
@@ -30,18 +32,31 @@ public class RobotController {
 	RobotModelService robotModelService;
 	
 	@RequestMapping("/robots")
-	public String getAllRobots(Model model) {
+	public ModelAndView getAllRobots(Model model, HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("user");
+		if (user == null)
+			return new ModelAndView(new RedirectView("/panel"));
+		
 		List<Robot> robotsList = new ArrayList<>();
 		robotsList = robotService.getAllRobots();
-		
-		model.addAttribute("robotslist", robotsList);
-		model.addAttribute("title", "All robots:");
-		
-		return "robots";
+		if (user.getRole().equals("admin")) {
+			robotsList = robotService.getAllRobots();
+			model.addAttribute("robotslist", robotsList);
+			model.addAttribute("title", "All robots:");
+		} else {
+			robotsList = robotService.getRobotsByUser(user);
+			model.addAttribute("robotslist", robotsList);
+			model.addAttribute("title", "My robots:");
+		}
+
+		return new ModelAndView("robots");
 	}
 	
 	@RequestMapping("/robots/{id}")
-	public String getRobotById(@PathVariable Long id, Model model, @RequestParam(name="delete", required=false) String delete) {
+	public ModelAndView getRobotById(@PathVariable Long id, Model model, @RequestParam(name="delete", required=false) String delete, HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("user");
+		if (user == null)
+			return new ModelAndView(new RedirectView("/panel"));
 		
 		Robot robot = robotService.getRobot(id);
 		
@@ -49,13 +64,13 @@ public class RobotController {
 			if (robot.getStatus() == RobotStatus.READY && robot.getOrder() == null)
 				robotModelService.updateStockAndInProduction();
 			robotService.deleteRobot(id);
-			return getAllRobots(model);
+			return new ModelAndView(new RedirectView("../robots"));
 		} else {
 			
 			model.addAttribute("title", "This robot:");
 			model.addAttribute("robot", robot);
 			
-			return "robot";
+			return new ModelAndView("robot");
 		}
 	}
 	
@@ -88,20 +103,24 @@ public class RobotController {
 		
 		robotModelService.calcBasket(session);
 		
-		return new ModelAndView(new RedirectView("shop"));
+		return new ModelAndView(new RedirectView("/shop"));
 	}
 	
 
 	
 	@RequestMapping(method=RequestMethod.GET, value="/addrobot")
-	public String addRobot(Model model) {
+	public ModelAndView addRobot(Model model, HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("user");
+		if (!user.getRole().equals("admin"))
+			return new ModelAndView(new RedirectView("/panel"));
+		
 		List<RobotModel> robotModels = robotModelService.getAllRobotModels();
 		RobotStatus[] robotStatuses = RobotStatus.values();
 		
 		model.addAttribute("robotmodels", robotModels);
 		model.addAttribute("robotstatuses", robotStatuses);
 		
-		return "addrobot";
+		return new ModelAndView("addrobot");
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/addrobot")
@@ -119,7 +138,11 @@ public class RobotController {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/robots/{id}/edit")
-	public String updateRobot(Model model, @PathVariable Long id) {
+	public ModelAndView updateRobot(Model model, @PathVariable Long id, HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("user");
+		if (!user.getRole().equals("admin"))
+			return new ModelAndView(new RedirectView("/panel"));
+		
 		List<RobotModel> robotModels = robotModelService.getAllRobotModels();
 		
 		List<RobotStatus> robotStatuses = new ArrayList<>(Arrays.asList(RobotStatus.values()));
@@ -129,7 +152,7 @@ public class RobotController {
 		
 		model.addAttribute("robot", robotService.getRobot(id));
 		
-		return "editrobot";
+		return new ModelAndView("editrobot");
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/robots/{id}/edit")
@@ -144,7 +167,7 @@ public class RobotController {
 			robotModelService.updateStockAndInProduction();
 		}
 		
-		return new ModelAndView(new RedirectView(".."));
+		return new ModelAndView(new RedirectView("../../robots"));
 	}
 	
 	

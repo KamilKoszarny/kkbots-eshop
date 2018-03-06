@@ -45,5 +45,8 @@
 				Lorem ipsum dolor sit amet, consecteturnisi ut blanipit. Suspendisse tempor imperdiet ex non suscipit. Donec eget gravida neque. Sed placerat semper mi non blandit. Nullam quis diam nec est pulvinar cursus. 
 			</div>
 		</section>
+		<script>
+	    	window.onload = activeMenuItem(0, ${sMIN}, "${category}");
+		</script>
     </jsp:attribute>
 </t:genericpage>

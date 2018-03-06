@@ -11,11 +11,13 @@
     	<c:forEach items="${robotmodels}" var ="robotmodel">
 	    	<section class="shopItem">
 				<div class="shopItemIMGDiv">
-					<img class="shopItemIMG" src="/resources/img/${robotmodel.model}.jpg" />
-					<div class="shopItemIMGCaption">${robotmodel.model}</div>
+					<a href="shop/robots/${robotmodel.model}">
+						<img class="shopItemIMG" src="/resources/img/${robotmodel.model}.jpg" />
+					</a>
+						<div class="shopItemIMGCaption">${robotmodel.model}</div>
 				</div>
 				<div class="shopItemText">
-					<h4 class="shopItemTitle">${robotmodel.model}</h4>
+					<h4 class="shopItemTitle"><a href="shop/robots/${robotmodel.model}">${robotmodel.model}</a></h4>
 					<div class="shopItemDescription">${robotmodel.description}</div>
 				</div>
 				<div class="shopItemPricing">
@@ -57,6 +59,9 @@
 				<div style="clear: both;"> </div>
 			</section>
     	</c:forEach>
-    	<div style="clear: both;"> </div>		
+    	<div style="clear: both;"> </div>	
+    	<script>
+	    	window.onload = activeMenuItem(1, 0, '');
+		</script>	
     </jsp:attribute>
 </t:genericpage>

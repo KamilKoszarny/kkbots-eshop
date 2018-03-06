@@ -2,7 +2,7 @@
 <%@attribute name="main" fragment="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
-	<body onload="activeMenuItem(0, 0, '');">
+	<body>
 		<header id="header">
 	     	<h1 id="logo">
 				<img id="logoImg" src="/resources/img/logo.jpg"/>
@@ -31,12 +31,10 @@
 				</c:if>
 				<c:if test="${user != null}">
 					<div id="loginTextFields">
-						<form method="get" action="logout">
-							<div class="loginText">Logged as: <br/>${user.name} ${user.surname}</div>
-						</form>
+						<div class="loginText">Logged as: <br/>${user.name} ${user.surname}</div>
 					</div>
 					<div id="logButtons">
-						<form method="post" action="logout">
+						<form method="post" action="/logout">
 							<input class="logButton" id="logoutButton" type="submit" value="Log out"/>
 						</form>
 					</div>
@@ -46,33 +44,32 @@
       
 	      	<nav id="mainNav">
 				<ol id="mainMenu">
-					<li><a href="index.html">News</a>
+					<li><a href="/index">News</a>
 						<ul class="subMenu">
-							<li onclick="activeMenuItem(0, 0, 'all');">All</li>
-							<li onclick="activeMenuItem(0, 1, 'New robots');">New robots</li>
-							<li onclick="activeMenuItem(0, 2, 'New buildings');">New buildings</li>
-							<li onclick="activeMenuItem(0, 3, 'New items');">New items</li>
-							<li onclick="activeMenuItem(0, 4, 'Upgrades');">Upgrades</li>
-							<li onclick="activeMenuItem(0, 5, 'Free topics');">Free topics</li>
+							<li><a href="/index/0">All</a></li>
+							<li><a href="/index/1">New robots</a></li>
+							<li><a href="/index/2">New buildings</a></li>
+							<li><a href="/index/3">New items</a></li>
+							<li><a href="/index/4">Upgrades</a></li>
+							<li><a href="/index/5">Free topics</a></li>
 						</ul>
 					</li>
-					<li><a href="shop">Shop</a>
+					<li><a href="/shop">Shop</a>
 						<ul class="subMenu">
-							<li><a href="shop">All</a></li>
-							<li><a href = "shop">Robots</a></li>
+							<li><a href="/shop">All</a></li>
 						</ul>				
 					</li>
-					<li>My panel
+					<li><a href = "/panel">My panel</a>
 						<ul class="subMenu">
-							<li><a href = "#">Main</a></li>
-							<li><a href = "#">Robots</a></li>
-							<li><a href = "#">Orders</a></li>
+							<li><a href = "/panel">Main</a></li>
+							<li><a href = "/robots">Robots</a></li>
+							<li><a href = "/orders">Orders</a></li>
 						</ul>
 					</li>
-					<li>About
+					<li><a href="about">About</a>
 						<ul class="subMenu">
-							<li><a href = "#">About project</a></li>
-							<li><a href = "#">About author</a></li>
+							<li><a href = "about#aboutproject">About project</a></li>
+							<li><a href = "about#aboutauthor">About author</a></li>
 						</ul>
 					</li>
 					<li><a href = "#footer">Contact</a></li>
@@ -82,7 +79,7 @@
 		<div id="container">
 			<div id="leftSide">
 				<ol id="sideNavList">
-					<li><a href = "index.html">News</a>
+					<li><a href = "/index">News</a>
 						<ul class="sideNavSubList">
 							<li onclick="activeMenuItem(0, 0, 'all');"><span>All</span>
 								<ul class="sideNavSubSubList"></ul>
@@ -104,23 +101,37 @@
 							</li>
 						</ul>
 					 </li>
-					 <li><a href="shop">Shop</a>
+					 <li><a href="/shop">Shop</a>
 						<ul class="sideNavSubList">
-							<li><a href="shop">All</a></li>
-							<li><a href = "shop">Robots</a></li>
+							<li onclick="activeMenuItem(1, 0, '');"><span>All</span>
+								<ul class="sideNavSubSubList"></ul>
+							</li>
+							<li onclick="activeMenuItem(1, 1, '');"><span>Robots</span>
+								<ul class="sideNavSubSubList"></ul>
+							</li>
 						</ul>
 					 </li>
-					 <li>My panel
+					 <li><a href = "/panel">My panel</a>
 						<ul class="sideNavSubList">
-							<li><a href = "#">Main</a></li>
-							<li><a href = "#">Robots</a></li>
-							<li><a href = "#">Orders</a></li>
+							<li><a href = "/panel">Main</a>
+								<ul class="sideNavSubSubList"></ul>
+							</li>
+							<li><a href = "/robots">Robots</a>
+								<ul class="sideNavSubSubList"></ul>
+							</li>
+							<li><a href = "/orders">Orders</a>
+								<ul class="sideNavSubSubList"></ul>
+							</li>
 						</ul>
 					 </li>
-					 <li>About
+					 <li><a href="/about">About</a>
 						<ul class="sideNavSubList">
-							<li><a href = "#">About project</a></li>
-							<li><a href = "#">About author</a></li>
+							<li><a href = "/about#aboutproject">About project</a>
+								<ul class="sideNavSubSubList"></ul>
+							</li>
+							<li><a href = "/about#aboutauthor">About author</a>
+								<ul class="sideNavSubSubList"></ul>
+							</li>
 						</ul>
 					 </li>
 					 <li>Contact</li>
@@ -152,7 +163,7 @@
 						<div class="basketItemName"><b>TOTAL</b></div>
 						<div class="basketItemPriceTotal"><b>$${sumPrice}</b></div>
 					</div>
-					<form method="get" action="order">
+					<form method="get" action="/order">
 						<input class="basketButton" type="submit" value="Go to order"/>
 					</form>
 				</div>

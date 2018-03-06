@@ -8,15 +8,7 @@
 </jsp:include>
 <t:genericpage>
     <jsp:attribute name="main">
-		<h2>Admin panel</h2>
-		<h3>Login: ${user.login}</h3>
-		<h3>Full name: ${user.name} ${user.surname}</h3>
-		<h4><a href="robots">List of robots</a></h4>
-		<h4><a href="orders">List of orders</a></h4>
-		<form method="get" action="logout">
-			<input type="submit" value="Log out" />
-		</form>
-		
+		<h3>Please log in to see your panel</h3>
 		<script>
 		    window.onload = activeMenuItem(2, 0, '');
 		</script>		

@@ -36,7 +36,12 @@
     	</c:if>
     	<c:if test="${basketbymodels == null}">
     		No items in your basket. <br/>
-    		<a class="basketButton" href="shop">Go to shop</a>
+    		<a href="shop">Go to shop</a>
     	</c:if>
+    	
+    	<script>
+		    window.onload = activeMenuItem(1, 0, '');
+		</script>	
+		
     </jsp:attribute>
 </t:genericpage>

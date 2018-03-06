@@ -36,9 +36,11 @@ public class OrderController {
 	RobotModelService robotModelService;
 	
 	@RequestMapping("/orders")
-	public String getAllOrders(HttpSession session, Model model) {
+	public ModelAndView getAllOrders(HttpSession session, Model model) {
 		User user = (User)session.getAttribute("user");
 		List<Order> orders;
+		if (user == null)
+			return new ModelAndView(new RedirectView("/panel"));
 		if (user.getRole().equals("customer")) {
 			orders = orderService.getOrdersByCustomer(user);
 			model.addAttribute("title", "My orders");
@@ -54,31 +56,31 @@ public class OrderController {
 		orderService.updateOrdersStatusByRobotsAvailability(orders);
 		user.setOrders(orders);
 		session.setAttribute("user", user);
-		return "orders";
+		return new ModelAndView("orders");
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/pay")
 	public ModelAndView pay(@RequestParam(name="orderid") Long orderId) {
 		updateOrder(orderId, OrderStatus.PAYMENT);
-		return new ModelAndView(new RedirectView("orders"));
+		return new ModelAndView(new RedirectView("/orders"));
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/confirmpayment")
 	public ModelAndView confirmPayment(@RequestParam(name="orderid") Long orderId) {
 		updateOrder(orderId, OrderStatus.TO_SEND);
-		return new ModelAndView(new RedirectView("orders"));
+		return new ModelAndView(new RedirectView("/orders"));
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/confirmsend")
 	public ModelAndView confirmSend(@RequestParam(name="orderid") Long orderId) {
 		updateOrder(orderId, OrderStatus.SEND);
-		return new ModelAndView(new RedirectView("orders"));
+		return new ModelAndView(new RedirectView("/orders"));
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/confirmreceived")
 	public ModelAndView confirmReceived(@RequestParam(name="orderid") Long orderId) {
 		updateOrder(orderId, OrderStatus.SOLD);
-		return new ModelAndView(new RedirectView("orders"));
+		return new ModelAndView(new RedirectView("/orders"));
 	}
 	
 	private void updateOrder(Long id, OrderStatus status) {

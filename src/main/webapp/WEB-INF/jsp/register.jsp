@@ -8,6 +8,7 @@
 <t:genericpage>
     <jsp:attribute name="main">
     	<div id="registerWrapper">
+    		<h3>Hello! Please register</h3>
 	    	<form method="post" action="register">
 	    		<span class="registerCaption">Login*: </span>
 	    		<input class="registerTextField" type="text" name="login" title="Login" required="required"/><br/>
