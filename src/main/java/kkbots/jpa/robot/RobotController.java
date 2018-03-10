@@ -106,6 +106,27 @@ public class RobotController {
 		return new ModelAndView(new RedirectView("/shop"));
 	}
 	
+	@RequestMapping(method=RequestMethod.POST, value="/removeone")
+	public ModelAndView removeOne(HttpSession session, @RequestParam(name="robotmodel") RobotModel robotModel) {
+		@SuppressWarnings("unchecked")
+		List<Robot> basket = (List<Robot>)session.getAttribute("basket");
+		
+		Robot robot = new Robot();
+		for (Robot robotInBasket : basket) {
+			if(robotInBasket.getRobotModel().equals(robotModel))
+				robot = robotInBasket;
+		}
+
+		robotService.removeFromBasket(robot);
+		basket.remove(robot);
+		session.setAttribute("basket", basket);
+		
+		robotModelService.updateStockAndInProduction();
+		
+		robotModelService.calcBasket(session);
+		
+		return new ModelAndView(new RedirectView("/order"));
+	}
 
 	
 	@RequestMapping(method=RequestMethod.GET, value="/addrobot")

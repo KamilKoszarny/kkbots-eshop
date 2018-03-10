@@ -41,15 +41,14 @@
     			</li>
     		</ul>
     	<h2 id="aboutauthor">About author</h2>
-    	I am an robotics engineer developing my programming skills both in low level (Fanuc, Karel) and high level (Java, JavaScript, web) languages programming. You can find more about me on: 
-    	<h4>Links: </h4>
+    	I am an robotics engineer developing my programming skills both in low level (Fanuc, Karel) and high level (Java, JavaScript, web) languages. You can find more about me on: 
     		<ul>
-    			<li>Github: </li>
-    			<li>LinkedIn: </li>
+    			<li>Github: <a target="_blank" href="https://github.com/KamilKoszarny">github.com/KamilKoszarny</a></li>
+    			<li>LinkedIn: <a target="_blank" href="https://www.linkedin.com/in/kamil-koszarny">linkedin.com/in/kamil-koszarny</a></li>
     		</ul>
     		
 		<script>
-		    window.onload = activeMenuItem(3, 0, '');
+		    window.onload = activeMenuItem(3, 99, '');
 		</script>	    	
     </jsp:attribute>
 </t:genericpage>

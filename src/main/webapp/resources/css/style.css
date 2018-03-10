@@ -12,6 +12,11 @@ body{
 		text-decoration: none;
 		color: hsl(0, 0%, 90%);
 	}
+	
+	a .relative{
+		position:relative;
+		bottom:90px;
+	}
 
 	th, tr {
 		color: hsl(0, 0%, 15%);
@@ -254,12 +259,10 @@ body{
 				.sideNavSubSubList > li:before{
 					content: "\2023  ";
 				}
-		#ad1{
-			background-color: white;
-			
+		#ad1{			
 			margin-right: 3px;
 						
-			max-height: 800px;				
+			height: 800px;				
 		}		
 		
 		
@@ -459,7 +462,7 @@ body{
 			text-align: justify;
 			margin: 0 0 3px 3px;
 			
-			height: 500px;				
+			height: 510px;				
 		}
 			#basketTitle{
 				font-size: 30px;
@@ -528,7 +531,7 @@ body{
 			
 			margin-left: 3px;
 
-			height: 802px;
+			height: 800px;
 		}	
 	
 	.abouttext{

@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import kkbots.jpa.robot.Robot;
 import kkbots.jpa.robot.RobotService;
 import kkbots.jpa.robot.robotmodel.RobotModelService;
 
@@ -33,6 +31,8 @@ public class UserController {
 	RobotService robotService;
 	@Autowired
 	RobotModelService robotModelService;
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@RequestMapping("/users")
 	public List<User> getAllUsers() {
@@ -63,9 +63,14 @@ public class UserController {
 	public ModelAndView validateUser(@RequestParam(name="login") String login, @RequestParam(name="password") String password, 
 			HttpServletRequest request, RedirectAttributes redirectAttributes) {
 			
+		if(userService.checkLoginAvailable(login)) {
+			redirectAttributes.addFlashAttribute("message", "No such user. Check login.");
+			return new ModelAndView(new RedirectView("/index"));			
+		}
+		
 		User user = userService.validateUser(login, password);
 		if(user == null) {
-			redirectAttributes.addFlashAttribute("message", "No such user. Check login and password.");
+			redirectAttributes.addFlashAttribute("message", "Wrong password.");
 			return new ModelAndView(new RedirectView("/index"));
 		} else {
 			request.getSession().setAttribute("user", user);
@@ -105,7 +110,9 @@ public class UserController {
 			@RequestParam(name="address", required=false) String address,
 			Model model){
 		
-		User user = new User(0l, "customer", login, password, firstName, lastName, email, phone, address);
+		String encodedPassword = bCryptPasswordEncoder.encode(password);
+		
+		User user = new User(0l, "customer", login, encodedPassword, firstName, lastName, email, phone, address);
 		if(!validateRegistrationAndGenerateMessages(user, model)) {
 			model.addAttribute("userInfo", user);
 			return new ModelAndView("/register");
@@ -136,25 +143,23 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping("/logout")
-	public ModelAndView logOutUser(HttpServletRequest httpServletRequest) {
-		cleanBasket(httpServletRequest);
+	@RequestMapping("/logoutothername")
+	public ModelAndView logOutUser(HttpServletRequest httpServletRequest, Model model, HttpSession session) {
+		userService.cleanBasket(httpServletRequest, robotService, robotModelService);
+		robotModelService.calcBasket(session);
 		
-		httpServletRequest.getSession().setAttribute("user", null);
+		httpServletRequest.getSession().setAttribute("user", model);
 		
 		return new ModelAndView(new RedirectView("/index"));
 	}
 	
-	private void cleanBasket(HttpServletRequest httpServletRequest) {
-		@SuppressWarnings("unchecked")
-		List<Robot> robotsInBasket = (List<Robot>)httpServletRequest.getSession().getAttribute("basket");
-		if (robotsInBasket != null) {
-			robotsInBasket.forEach(robot->{
-				robotService.removeFromBasket(robot);
-				robotModelService.updateStockAndInProduction();
-			});
-			
-			httpServletRequest.getSession().setAttribute("basket", null);
-		}
+	@RequestMapping("/cancelorder")
+	public ModelAndView cancelOrder(HttpServletRequest request, HttpSession session) {
+		userService.cleanBasket(request, robotService, robotModelService);
+		robotModelService.calcBasket(session);
+		
+		return new ModelAndView(new RedirectView("/order"));
 	}
+	
+
 }

@@ -21,17 +21,24 @@
 						<div class="shopItemDescription">${robotmodel.description}</div>
 					</div>
 					<div class="shopItemPricing">
-						<div class="shopItemPrice">$${robotmodel.price} each</div>
+						<b>$${robotmodel.price} each</b> <br/>
 			          	<b>${robotmodel.robotCount}</b> in order <br/>
 			          	<b>Total: $${robotmodel.price * robotmodel.robotCount}</b>
+			          	<form method="post" action="removeone">
+							<input type="hidden" name="robotmodel" value="${robotmodel}" />
+							<input class="shopItemB" type="submit" value="Remove one"/>
+						</form>
 					</div>
 					<div style="clear: both;"> </div>
 				</section>
 	    	</c:forEach>
 	    	<div style="clear: both;"> </div>
-	    	<h2>Total: ${sumPrice}</h2>
+	    	<h2>Total: $${sumPrice}</h2>
 	    	<form method="post" action="order">
 	    		<input class="basketButton" type="submit" value="Confirm order"/>
+	    	</form>
+	    	<form method="post" action="cancelorder">
+	    		<input class="basketButton" id="logoutButton" type="submit" value="Cancel order"/>
 	    	</form>
     	</c:if>
     	<c:if test="${basketbymodels == null}">
@@ -40,7 +47,7 @@
     	</c:if>
     	
     	<script>
-		    window.onload = activeMenuItem(1, 0, '');
+		    window.onload = activeMenuItem(1, 1, '');
 		</script>	
 		
     </jsp:attribute>

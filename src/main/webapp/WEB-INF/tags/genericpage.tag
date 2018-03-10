@@ -11,17 +11,18 @@
       		<div style="clear:both;"> </div>
 			<div id="login">
 				<c:if test="${user == null}">
-					<div id="loginTextFields">
-						<form method="post" action="uservalidation">
+					<form method="post" action="uservalidation">
+						<div id="loginTextFields">
 							<div class="loginText">Login:<input class="loginTextField" type="text" name="login" title="Login"/></div>
 							<div style="clear:both;"> </div>
 							<div class="loginText">Password:<input class="loginTextField" type="password" name="password" title="Password"/></div>
-						
-					</div>
+						</div>
+						<div id="logButtons">
+							<input class="logButton" id="loginButton" type="submit" value="Log in"/>
+							<div style="clear:both;"> </div>
+						</div>
+					</form>
 					<div id="logButtons">
-						<input class="logButton" id="loginButton" type="submit" value="Log in"/>
-						<div style="clear:both;"> </div>
-						</form>
 						<form method="get" action="register">
 							<input class="logButton" id="registerButton" type="submit" value="Register"/>
 						</form>
@@ -34,9 +35,9 @@
 						<div class="loginText">Logged as: <br/>${user.name} ${user.surname}</div>
 					</div>
 					<div id="logButtons">
-						<form method="post" action="/logout">
-							<input class="logButton" id="logoutButton" type="submit" value="Log out"/>
-						</form>
+						<a href="/logoutothername">
+							<input class="logButton" id="logoutButton" type="button" value="Log out"/>
+						</a>
 					</div>
 				</c:if>
 			</div>
@@ -56,7 +57,8 @@
 					</li>
 					<li><a href="/shop">Shop</a>
 						<ul class="subMenu">
-							<li><a href="/shop">All</a></li>
+							<li><a href="/shop">Products</a></li>
+							<li><a href="/order">Basket</a></li>
 						</ul>				
 					</li>
 					<li><a href = "/panel">My panel</a>
@@ -68,8 +70,8 @@
 					</li>
 					<li><a href="about">About</a>
 						<ul class="subMenu">
-							<li><a href = "about#aboutproject">About project</a></li>
-							<li><a href = "about#aboutauthor">About author</a></li>
+							<li><a class="relative" href = "about#aboutproject">About project</a></li>
+							<li><a class="relative" href = "about#aboutauthor">About author</a></li>
 						</ul>
 					</li>
 					<li><a href = "#footer">Contact</a></li>
@@ -103,10 +105,10 @@
 					 </li>
 					 <li><a href="/shop">Shop</a>
 						<ul class="sideNavSubList">
-							<li onclick="activeMenuItem(1, 0, '');"><span>All</span>
+							<li><a href = "/shop">Products</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
-							<li onclick="activeMenuItem(1, 1, '');"><span>Robots</span>
+							<li><a href = "/order">Basket</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
 						</ul>
@@ -126,10 +128,12 @@
 					 </li>
 					 <li><a href="/about">About</a>
 						<ul class="sideNavSubList">
-							<li><a href = "/about#aboutproject">About project</a>
+							<li>
+								<a href = "/about#aboutproject">About project</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
-							<li><a href = "/about#aboutauthor">About author</a>
+							<li>
+								<a href = "/about#aboutauthor">About author</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
 						</ul>
@@ -137,7 +141,9 @@
 					 <li>Contact</li>
 				</ol>
 				<div id="ad1">
-					ad1
+					<a target="_blank" href="https://www.emag.ro/prosoape/brand/saheser/c">
+						<img src="/resources/img/ad1.jpg" height="800" width="147"/>
+					</a>
 				</div>
 			</div>
 			
@@ -147,7 +153,7 @@
 			
 			<aside id="rightSide">
 				<div id="basket">
-					<div id="basketTitle">Your basket</div>
+					<div id="basketTitle"><a href="/order">Your basket</a></div>
 					<div id="basketContent">
 						<c:forEach items="${basketbymodels}" var="robotmodel">
 							<div class="basketItem">
@@ -164,11 +170,13 @@
 						<div class="basketItemPriceTotal"><b>$${sumPrice}</b></div>
 					</div>
 					<form method="get" action="/order">
-						<input class="basketButton" type="submit" value="Go to order"/>
+						<input class="basketButton" type="submit" value="Go to basket"/>
 					</form>
 				</div>
 				<div id="ad2">
-					ad2
+					<a target="_blank" href="https://businessinsider.com.pl/lifestyle/podroze/japonia-co-warto-zwiedzic-w-kraju-kwitnacej-wisni/qjr0dpf">
+						<img src="/resources/img/ad2.jpg" height="800" width="197"/>
+					</a>
 				</div>
 			</aside>
 			<div style="clear:both;"> </div>

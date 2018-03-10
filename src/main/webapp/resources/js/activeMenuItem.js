@@ -70,9 +70,6 @@ function activeMenuItem(mIN, sMIN, cat){
 			if (j == subMenuItemNo) {			
 				item = subMenus[menuItemNo].children[j];
 				item.style.backgroundColor = "hsl(250, 100%, 30%)";
-			} else {
-				item = subMenus[menuItemNo].children[j];
-				item.style.backgroundColor = "hsl(0, 0%, 15%)";
 			}
 	} else {
 		item.style.backgroundColor = "hsl(360, 100%, 30%)";
@@ -80,9 +77,6 @@ function activeMenuItem(mIN, sMIN, cat){
 			if (j == subMenuItemNo) {	
 				item = subMenus[menuItemNo].children[subMenuItemNo];
 				item.style.backgroundColor = "hsl(360, 100%, 30%)";
-			} else {
-				item = subMenus[menuItemNo].children[j];
-				item.style.backgroundColor = "hsl(0, 0%, 15%)";
 			}			
 	}
 }
