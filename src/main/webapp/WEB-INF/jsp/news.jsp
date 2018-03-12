@@ -45,6 +45,16 @@
 				Lorem ipsum dolor sit amet, consecteturnisi ut blanipit. Suspendisse tempor imperdiet ex non suscipit. Donec eget gravida neque. Sed placerat semper mi non blandit. Nullam quis diam nec est pulvinar cursus. 
 			</div>
 		</section>
+		<section class="sectionArticle">
+			<a onclick="activeMenuItem(0, 1, 'New robots');" class="sectionArticleCategory" href="#">New robots</a>
+			<div class="sectionArticleDate">13.05.2017 15:36</div>
+			<br/>
+			<h3 class="sectionArticleTitle"><a href="article0.html">RKZ02 design progress</a></h3>
+			<img class="sectionArticleImg" src="/resources/img/RKZ02.jpg">
+			<div class="sectionArticleContent">
+				Lorem ipsum dolor sit amet, consecteturnisi ut blanipit. Suspendisse tempor imperdiet ex non suscipit. Donec eget gravida neque. Sed placerat semper mi non blandit. Nullam quis diam nec est pulvinar cursus. 
+			</div>
+		</section>
 		<script>
 	    	window.onload = activeMenuItem(0, ${sMIN}, "${category}");
 		</script>

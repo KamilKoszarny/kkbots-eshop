@@ -45,14 +45,14 @@
       
 	      	<nav id="mainNav">
 				<ol id="mainMenu">
-					<li><a href="/index">News</a>
+					<li><a href="/news">News</a>
 						<ul class="subMenu">
-							<li><a href="/index/0">All</a></li>
-							<li><a href="/index/1">New robots</a></li>
-							<li><a href="/index/2">New buildings</a></li>
-							<li><a href="/index/3">New items</a></li>
-							<li><a href="/index/4">Upgrades</a></li>
-							<li><a href="/index/5">Free topics</a></li>
+							<li><a href="/news/0">All</a></li>
+							<li><a href="/news/1">New robots</a></li>
+							<li><a href="/news/2">New buildings</a></li>
+							<li><a href="/news/3">New items</a></li>
+							<li><a href="/news/4">Upgrades</a></li>
+							<li><a href="/news/5">Free topics</a></li>
 						</ul>
 					</li>
 					<li><a href="/shop">Shop</a>
@@ -81,24 +81,24 @@
 		<div id="container">
 			<div id="leftSide">
 				<ol id="sideNavList">
-					<li><a href = "/index">News</a>
+					<li><a href = "/news">News</a>
 						<ul class="sideNavSubList">
-							<li onclick="activeMenuItem(0, 0, 'all');"><span>All</span>
+							<li><a href="/news/0">All</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
-							<li onclick="activeMenuItem(0, 1, 'New robots');"><span>New robots</span>
+							<li><a href="/news/1">New robots</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
-							<li onclick="activeMenuItem(0, 2, 'New buildings');"><span>New buildings</span>
+							<li><a href="/news/2">New buildings</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
-							<li onclick="activeMenuItem(0, 3, 'New items');"><span>New items</span>
+							<li><a href="/news/3">New items</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
-							<li onclick="activeMenuItem(0, 4, 'Upgrades');"><span>Upgrades</span>
+							<li><a href="/news/4">Upgrades</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
-							<li onclick="activeMenuItem(0, 5, 'Free topics');"><span>Free topics</span>
+							<li><a href="/news/5">Free topics</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
 						</ul>
@@ -133,7 +133,7 @@
 								<ul class="sideNavSubSubList"></ul>
 							</li>
 							<li>
-								<a href = "/about#aboutauthor">About author</a>
+								<a href = "/about#aboutauthor" >About author</a>
 								<ul class="sideNavSubSubList"></ul>
 							</li>
 						</ul>
@@ -183,8 +183,8 @@
 			
 		</div>
 		<footer id="footer">
-			<div style="float: right;">KKBots - Kamil Koszarny<br/>k.koszarny@wp.pl</div>
-			<div id="footerMiddle" style="text-align: center;">KKBots thanks for your visit. See you soon :)</div>
+			<div id="footerRight">KKBots - Kamil Koszarny<br/>k.koszarny@wp.pl</div>
+			<div id="footerMiddle">KKBots thank for your visit. See you soon :)</div>
 		</footer>
     
     

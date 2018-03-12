@@ -65,13 +65,13 @@ public class UserController {
 			
 		if(userService.checkLoginAvailable(login)) {
 			redirectAttributes.addFlashAttribute("message", "No such user. Check login.");
-			return new ModelAndView(new RedirectView("/index"));			
+			return new ModelAndView(new RedirectView("/news"));			
 		}
 		
 		User user = userService.validateUser(login, password);
 		if(user == null) {
 			redirectAttributes.addFlashAttribute("message", "Wrong password.");
-			return new ModelAndView(new RedirectView("/index"));
+			return new ModelAndView(new RedirectView("/news"));
 		} else {
 			request.getSession().setAttribute("user", user);
 			if (user.getRole().equals("customer"))
@@ -150,7 +150,7 @@ public class UserController {
 		
 		httpServletRequest.getSession().setAttribute("user", model);
 		
-		return new ModelAndView(new RedirectView("/index"));
+		return new ModelAndView(new RedirectView("/news"));
 	}
 	
 	@RequestMapping("/cancelorder")

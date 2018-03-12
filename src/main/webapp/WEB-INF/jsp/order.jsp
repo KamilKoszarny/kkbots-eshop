@@ -43,7 +43,9 @@
     	</c:if>
     	<c:if test="${basketbymodels == null}">
     		No items in your basket. <br/>
-    		<a href="shop">Go to shop</a>
+    		<form method="get" action="shop">
+	    		<input class="basketButton" type="submit" value="Go to shop"/>
+	    	</form>
     	</c:if>
     	
     	<script>

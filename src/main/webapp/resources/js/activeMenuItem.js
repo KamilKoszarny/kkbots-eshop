@@ -6,7 +6,8 @@ function activeMenuItem(mIN, sMIN, cat){
 		
 
 //filter main		
-	var sections = document.getElementsByClassName("sectionArticle");				
+	var sections = document.getElementsByClassName("sectionArticle");
+	var sectionsCount = 0;
 	for (var i = 0; i < sections.length; i++){
 		var sectionCategory = sections[i].getElementsByClassName("sectionArticleCategory");		
 
@@ -14,8 +15,11 @@ function activeMenuItem(mIN, sMIN, cat){
 			sections[i].style.display = "none";
 		} else {
 			sections[i].style.display = "block";
+			sectionsCount++;
 		}
 	}
+	/*if (sectionsCount == 0)
+		document.getElementById("main").innerHTML = "";*/
 	
 //filter sideNav				
 	var sideNavSubLists = document.getElementsByClassName("sideNavSubList");

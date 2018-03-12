@@ -7,7 +7,8 @@
 
 <t:genericpage>
     <jsp:attribute name="main">
-    	<h2 id="aboutproject">About project</h2>
+    	<h2>About project</h2>
+    		<span id="aboutproject" class="relativeAnchor"></span>
     		<span class="abouttext">Welcome on KKBots page. This is a project made for educational and presentation purposes, so unfortunately those amazing robots you have probably seen in a shop are not available for sale. Please feel free to check all functionality of this sample page. You can click everywhere, try to register, order a robot, check for status, confirm receive and more with no worries. If you found something unusual I will appreciate contacting me. <br/> Project on GitHub: </span>
     		<a></a>
     		<h4>Tools used in project:</h4>
@@ -40,7 +41,8 @@
     				</ul>
     			</li>
     		</ul>
-    	<h2 id="aboutauthor">About author</h2>
+    	<h2>About author</h2>
+    	<span id="aboutauthor" class="relativeAnchor"></span>
     	I am an robotics engineer developing my programming skills both in low level (Fanuc, Karel) and high level (Java, JavaScript, web) languages. You can find more about me on: 
     		<ul>
     			<li>Github: <a target="_blank" href="https://github.com/KamilKoszarny">github.com/KamilKoszarny</a></li>

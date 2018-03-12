@@ -17,26 +17,31 @@ public class MainController {
 	@Autowired
 	MainService mainService;
 	
-	@RequestMapping(value={"/welcome"})
-	public String welcome() {
-		return "welcome";
-	}
-	
 	@RequestMapping(value={"/", "/index"})
 	public String index(HttpSession session, Model model) {
+		return "about";
+	}
+	
+	@RequestMapping(value={"/news"})
+	public String news(HttpSession session, Model model) {
 		if (model.asMap().get("sMIN") == null) {
 			model.addAttribute("sMIN", 0);
 			model.addAttribute("category", "");
 		}
-		return "index";
+		return "news";
 	}
 	
-	@RequestMapping(value={"/index/{sMIN}"})
-	public ModelAndView indexSMIN(HttpSession session, @PathVariable int sMIN, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value="/article{number}")
+	public String articles(@PathVariable Integer number){
+		return "article" + number;
+	}
+	
+	@RequestMapping(value={"/news/{sMIN}"})
+	public ModelAndView newsSMIN(HttpSession session, @PathVariable int sMIN, RedirectAttributes redirectAttributes) {
 		redirectAttributes.addFlashAttribute("sMIN", sMIN);
 		String category = mainService.getCategories().get(sMIN);
 		redirectAttributes.addFlashAttribute("category", category);
-		return new ModelAndView(new RedirectView("../index"));
+		return new ModelAndView(new RedirectView("../news"));
 	}
 	
 	@RequestMapping(value="/about")
