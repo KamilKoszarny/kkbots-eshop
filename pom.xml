@@ -6,7 +6,7 @@
 	<groupId>kkbots.first</groupId>
 	<artifactId>KKBots1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>KKBots1</name>
 	<description>Eshop with robots</description>

@@ -1,9 +1,7 @@
 package kkbots.jpa.order;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import kkbots.jpa.robot.Robot;
 import kkbots.jpa.robot.RobotService;
-import kkbots.jpa.robot.robotmodel.RobotModel;
 import kkbots.jpa.robot.robotmodel.RobotModelService;
 import kkbots.jpa.user.User;
 

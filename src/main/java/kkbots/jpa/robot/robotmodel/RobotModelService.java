@@ -17,7 +17,6 @@ import kkbots.jpa.robot.Robot;
 import kkbots.jpa.robot.RobotRepository;
 import kkbots.jpa.robot.RobotService;
 import kkbots.jpa.robot.RobotStatus;
-import kkbots.jpa.user.User;
 
 @Service
 public class RobotModelService {

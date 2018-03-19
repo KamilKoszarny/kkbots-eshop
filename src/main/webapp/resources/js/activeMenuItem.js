@@ -5,7 +5,7 @@ function activeMenuItem(mIN, sMIN, cat){
 	var category = cat;
 		
 
-//filter main		
+//filter main
 	var sections = document.getElementsByClassName("sectionArticle");
 	var sectionsCount = 0;
 	for (var i = 0; i < sections.length; i++){
@@ -18,10 +18,8 @@ function activeMenuItem(mIN, sMIN, cat){
 			sectionsCount++;
 		}
 	}
-	/*if (sectionsCount == 0)
-		document.getElementById("main").innerHTML = "";*/
 	
-//filter sideNav				
+//filter sideNav
 	var sideNavSubLists = document.getElementsByClassName("sideNavSubList");
 	for (var i = 0; i < sideNavSubLists.length; i++){
 		if (i != menuItemNo) {

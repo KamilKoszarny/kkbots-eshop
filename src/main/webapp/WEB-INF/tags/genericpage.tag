@@ -68,7 +68,7 @@
 							<li><a href = "/orders">Orders</a></li>
 						</ul>
 					</li>
-					<li><a href="about">About</a>
+					<li><a href="/about">About</a>
 						<ul class="subMenu">
 							<li><a class="relative" href = "about#aboutproject">About project</a></li>
 							<li><a class="relative" href = "about#aboutauthor">About author</a></li>
@@ -138,7 +138,7 @@
 							</li>
 						</ul>
 					 </li>
-					 <li>Contact</li>
+					 <li><a href = "#footer">Contact</a></li>
 				</ol>
 				<div id="ad1">
 					<a target="_blank" href="https://www.emag.ro/prosoape/brand/saheser/c">

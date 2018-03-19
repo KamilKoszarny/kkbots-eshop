@@ -148,7 +148,7 @@ public class UserController {
 		userService.cleanBasket(httpServletRequest, robotService, robotModelService);
 		robotModelService.calcBasket(session);
 		
-		httpServletRequest.getSession().setAttribute("user", model);
+		httpServletRequest.getSession().setAttribute("user", null);
 		
 		return new ModelAndView(new RedirectView("/news"));
 	}
